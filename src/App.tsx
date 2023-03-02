@@ -3,8 +3,8 @@ import { RootState } from './app/store'
 import ContactForm from './features/Contact/ContactForm'
 import ProductList from './features/ProductList/ProductList'
 import Order from './components/Order'
-import './App.css'
 import Header from './components/Header'
+import './App.css'
 
 function App() {
 	return (
