@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/iq-pizza/static/css/main.964fdded.css",
+    "main.js": "/iq-pizza/static/js/main.fc293234.js",
+    "index.html": "/iq-pizza/index.html",
+    "main.964fdded.css.map": "/iq-pizza/static/css/main.964fdded.css.map",
+    "main.fc293234.js.map": "/iq-pizza/static/js/main.fc293234.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.964fdded.css",
+    "static/js/main.fc293234.js"
+  ]
+}
