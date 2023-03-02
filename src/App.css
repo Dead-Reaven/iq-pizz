@@ -54,7 +54,6 @@ header {
 
 .header {
 	grid-area: header;
-	/* background: lightgreen; */
 }
 .header-container {
 	display: flex;
