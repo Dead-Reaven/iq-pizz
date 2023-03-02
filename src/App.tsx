@@ -4,18 +4,13 @@ import ContactForm from './features/Contact/ContactForm'
 import ProductList from './features/ProductList/ProductList'
 import Order from './components/Order'
 import './App.css'
+import Header from './components/Header'
 
 function App() {
 	return (
 		<div className='App'>
 			<div className='grid-container'>
-				<header className='header'>
-					<div className='header-container'>
-						<nav>Замовлення</nav>
-						<nav>Меню</nav>
-						<nav>Торгові точки</nav>
-					</div>
-				</header>
+				<Header />
 				<ContactForm />
 				<ProductList />
 				<Order />
