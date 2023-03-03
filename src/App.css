@@ -14,6 +14,7 @@ body {
 .App {
 	width: 100vw;
 	height: 100vh;
+	/* background: white; */
 }
 
 .grid-container {
@@ -49,8 +50,7 @@ body {
 	padding: 15px;
 } */
 
-header {
-}
+
 
 .header {
 	grid-area: header;
