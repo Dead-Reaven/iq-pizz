@@ -6,6 +6,7 @@
 }
 .contact_container * {
 	margin-bottom: 15px;
+	border: none;
 }
 .contact_container_personal-data {
 	display: flex;
@@ -13,7 +14,6 @@
 }
 .contact_container_personal-data > * {
 	width: 45%;
-	border: none;
 }
 .contact_container input,
 select {
@@ -30,37 +30,8 @@ select {
 }
 .type-delivery {
 	display: flex;
-	text-align: center;
-	/* justify-content: center; */
 }
-.contact_container_delivey input[type='radio'] {
-	visibility: collapse;
-}
-
-.contact_container_delivey label {
+.adress {
 	display: block;
-	width: 50%;
-	padding: 10px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.contact_container_delivey input[type='radio'] + label:hover {
-	background: rgba(255, 255, 255, 0.835);
-}
-.contact_container_delivey input[type='radio']:checked + label {
-	background-color: beige;
-	color: black;
-	border: 1px solid orange;
-}
-
-.courier-type input {
-	height: 40px;
-}
-.courier-type input[type='text'] {
-	width: 60%;
-}
-.courier-type input[type='time'] {
-	width: 35%;
-	margin-left: 5%;
+	width: 100%;
 }

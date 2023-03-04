@@ -1,5 +1,4 @@
-import ToggleButton from 'react-bootstrap/ToggleButton'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Form from 'react-bootstrap/Form'
 import { useState } from 'react'
 import './ContactForm.css'
 
@@ -15,21 +14,14 @@ interface OrderOptions {
 	}
 	time: string
 }
-const getTime = () => new Date().toLocaleTimeString().slice(0, 5)
 
 function ContactForm() {
 	const [deliveryType, setDeliveryType] = useState<string>('')
-	const [time, setTime] = useState(getTime())
+	const [time, setTime] = useState('')
 
+	const getTime = () => new Date().toLocaleTimeString().slice(0, 5)
 	const toggleDeliveryType = (type: string) => setDeliveryType(type)
-	// const [radios, setRadios] = useState([
-	// 	{ name: 'Самовивіз', value: '' },
-	// 	{ name: 'Самовивіз врем', value: '' },
-	// 	{ name: 'Доставка', value: '' },
-	// 	{ name: 'Доставка врем', value: '' },
-	// ])
 
-	const toggleRadio = () => {}
 	return (
 		<div className='contact '>
 			<form className='contact_container'>
@@ -48,39 +40,30 @@ function ContactForm() {
 				<div className='contact_container_delivey'>
 					<div className='contact_container_delivey_type'>
 						<div className='type-delivery'>
-							<input
-								type='radio'
+							<Form.Select
+								className='select-type-delivery'
+								aria-label='Default select example'
 								onChange={(e) => toggleDeliveryType(e.target.value)}
-								id='option1'
-								name='options'
-								value='self'
-							/>
-							<label htmlFor='option1'>Самовивіз</label>
-							<input
-								type='radio'
-								onChange={(e) => toggleDeliveryType(e.target.value)}
-								id='option2'
-								name='options'
-								value='courier'
-							/>
-							<label htmlFor='option2'>Доставка</label>
-						</div>
-					</div>
-
-					{deliveryType === 'courier' ? (
-						<div className='courier-type'>
-							<input type='text' placeholder='Адреса' />
+							>
+								<option value='' selected hidden>
+									Тип доставки
+								</option>
+								<option value='courier'>Доставка</option>
+								<option value='self_delivery'>Самовивіз</option>
+							</Form.Select>
 							<input
 								type='time'
 								className='contact_container_delivey_time'
 								value={time}
-								onDoubleClick={() => setTime(getTime())}
+								onLoad={() => setTime(getTime())}
 								defaultValue={'00:00'}
 								onChange={(e) => setTime(e.target.value)}
 							/>
 						</div>
-					) : (
-						<></>
+					</div>
+
+					{deliveryType === 'courier' && (
+						<input type='text' placeholder='Адреса' className='adress' />
 					)}
 				</div>
 			</form>
