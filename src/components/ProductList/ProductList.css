@@ -1,0 +1,10 @@
+.pizza-list_container {
+	height: 100%;
+}
+
+.pizza-list_container_flex {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	gap: 20px;
+}

@@ -26,34 +26,15 @@ body {
 	grid-template-areas:
 		'header header'
 		'contact pizza-list'
-		'total-order total-order';
+		'total-order pizza-list';
 }
 
-.contact {
-	grid-area: contact;
-	border-right: 1px rgba(69, 62, 62, 0.522) solid;
-	background: lightblue;
+.grid-container > * {
+	padding: 25px;
 }
-
-.pizza-list {
-	grid-area: pizza-list;
-	background: orange;
-}
-
-.total-order {
-	grid-area: total-order;
-	border-top: 1px rgba(69, 62, 62, 0.522) solid;
-	background: pink;
-}
-
-/* .grid-container > * {
-	padding: 15px;
-} */
-
-
-
 .header {
 	grid-area: header;
+	padding: 0px;
 }
 .header-container {
 	display: flex;
@@ -62,4 +43,27 @@ body {
 	height: 10vh;
 	max-width: 1100px;
 	margin: 0px auto;
+}
+
+.contact {
+	grid-area: contact;
+	border-right: 1px rgba(69, 62, 62, 0.522) solid;
+	background: lightblue;
+	border-left: 1px solid;
+	border-right: none;
+}
+.pizza-list {
+	grid-area: pizza-list;
+	background: orange;
+	overflow-y: auto;
+	border-left: 1px rgba(69, 62, 62, 0.522) solid;
+}
+
+input {
+	border: 1px solid rgb(206, 212, 218);
+}
+.total-order {
+	grid-area: total-order;
+	border-top: 1px rgba(69, 62, 62, 0.522) solid;
+	background: pink;
 }

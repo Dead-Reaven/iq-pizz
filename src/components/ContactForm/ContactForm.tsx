@@ -2,19 +2,6 @@ import Form from 'react-bootstrap/Form'
 import { useState } from 'react'
 import './ContactForm.css'
 
-interface OrderOptions {
-	store: string // a store point adress
-	contact: {
-		name: string
-		tel: string
-	}
-	deliveryType: {
-		type: string
-		adress?: string
-	}
-	time: string
-}
-
 function ContactForm() {
 	const [deliveryType, setDeliveryType] = useState<string>('')
 	const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, 5))
@@ -22,7 +9,7 @@ function ContactForm() {
 	const toggleDeliveryType = (type: string) => setDeliveryType(type)
 
 	return (
-		<div className='contact '>
+		<div className='contact'>
 			<form className='contact_container'>
 				<input list='categories' placeholder='Торгова точка' />
 				<datalist id='categories'>
@@ -41,7 +28,6 @@ function ContactForm() {
 						<div className='type-delivery'>
 							<Form.Select
 								className='select-type-delivery'
-								aria-label='Default select example'
 								onChange={(e) => toggleDeliveryType(e.target.value)}
 							>
 								<option value='' selected hidden>
