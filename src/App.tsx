@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux/es/exports'
 import { RootState } from './app/store'
-import ContactForm from './features/Contact/ContactForm'
-import ProductList from './features/ProductList/ProductList'
+import ContactForm from './components/ContactForm/ContactForm'
+import ProductList from './components/ProductList/ProductList'
 import Order from './components/Order'
 import Header from './components/Header'
 import 'bootstrap/dist/css/bootstrap.min.css';
