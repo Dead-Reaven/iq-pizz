@@ -17,7 +17,7 @@ interface OrderOptions {
 
 function ContactForm() {
 	const [deliveryType, setDeliveryType] = useState<string>('')
-	const [time, setTime] = useState('')
+	const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, 5))
 
 	const getTime = () => new Date().toLocaleTimeString().slice(0, 5)
 	const toggleDeliveryType = (type: string) => setDeliveryType(type)
@@ -55,7 +55,7 @@ function ContactForm() {
 								type='time'
 								className='contact_container_delivey_time'
 								value={time}
-								onLoad={() => setTime(getTime())}
+								
 								defaultValue={'00:00'}
 								onChange={(e) => setTime(e.target.value)}
 							/>
