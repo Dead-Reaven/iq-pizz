@@ -1,5 +1,6 @@
 import { MultiSelect } from 'react-multi-select-component'
 import './MultySelect.css'
+// to show more documentation https://www.npmjs.com/package/react-multi-select-component
 
 // const customValueRenderer = (
 // 	selected: Array<{ label: string; value: string }>,
@@ -8,6 +9,7 @@ import './MultySelect.css'
 // 	const labels = selected.map((selected) => '✔️' + selected.label)
 // 	return labels.length ? labels : 'Додати'
 // }
+
 const localisation = {
 	allItemsAreSelected: 'Усі добавки прийняті ✔️',
 	clearSearch: 'Очисти пошук',

@@ -18,18 +18,41 @@
 
 .pizza-card_header {
 	display: flex;
-	position: relative;
+	justify-content: space-between;
 	width: 100%;
 	/* height: 40px; */
 }
 
 .pizza-card_header_name {
 }
+
 .pizza-card_header_comment {
 	margin: 0px 10px;
 	flex: 1 1 auto;
 }
-.pizza-card_header_count {
+.pizza-card_header_block-selected-items {
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+	flex-wrap: wrap;
+}
+.pizza-card_header_block-selected-items_item {
+	/* padding-right: 1.5%; */
+	/* padding: 0px -1.5%; */
+	margin: 0px 2%;
+}
+.pizza-card_header_block-selected-items_item::before {
+	content: '✔️';
+}
+
+.pizza-card_header_block-price {
+	display: flex;
+}
+
+.pizza-card_header_block-price_price {
+	color: red;
+}
+.pizza-card_header_block-prise_count {
 	margin-top: -14px;
 }
 /* footer */
@@ -43,6 +66,7 @@
 	height: 40px;
 	width: 33%;
 }
+
 .pizza-card_footer_count-block {
 	display: flex;
 	flex-direction: row-reverse;
