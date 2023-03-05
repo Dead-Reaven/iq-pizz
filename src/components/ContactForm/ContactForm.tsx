@@ -7,14 +7,6 @@ function ContactForm() {
 	const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, 5))
 
 	const toggleDeliveryType = (type: string) => setDeliveryType(type)
-	const TimePicker = () => (
-		<input
-			type='time'
-			className='contact_container_delivey_time'
-			value={time}
-			onChange={(e) => setTime(e.target.value)}
-		/>
-	)
 
 	return (
 		<div className='contact'>
@@ -41,10 +33,10 @@ function ContactForm() {
 								<option value='' selected hidden>
 									Тип доставки
 								</option>
-								<option value='courier'>Доставка</option>
-								<option value='courier_time'>Доставка врем</option>
-								<option value='self_delivery'>Самовивіз</option>
-								<option value='self_delivery_time'>Самовивіз врем</option>
+								<option value='self_delivery'>Сам</option>
+								<option value='self_delivery_time'>Сам времянной</option>
+								<option value='courier'>Доставка текущий</option>
+								<option value='courier_time'>Доставка времянной</option>
 							</Form.Select>
 						</div>
 					</div>
@@ -52,10 +44,24 @@ function ContactForm() {
 						{deliveryType.includes('courier') ? (
 							<>
 								<input type='text' placeholder='Адреса' className='adress' />
-								{deliveryType.includes('time') && <TimePicker />}
+								{deliveryType.includes('time') && (
+									<input
+										type='time'
+										className='contact_container_delivey_time'
+										value={time}
+										onChange={(e) => setTime(e.target.value)}
+									/>
+								)}
 							</>
 						) : (
-							deliveryType.includes('self_delivery_time') && <TimePicker />
+							deliveryType.includes('self_delivery') && (
+								<input
+									type='time'
+									className='contact_container_delivey_time'
+									value={time}
+									onChange={(e) => setTime(e.target.value)}
+								/>
+							)
 						)}
 					</div>
 				</div>

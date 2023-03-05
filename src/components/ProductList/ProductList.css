@@ -4,7 +4,9 @@
 
 .pizza-list_container_flex {
 	display: flex;
+	align-items: center;
 	flex-direction: column;
 	flex: 1 1 auto;
 	gap: 20px;
 }
+

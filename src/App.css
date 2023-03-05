@@ -29,9 +29,6 @@ body {
 		'total-order pizza-list';
 }
 
-.grid-container > * {
-	padding: 25px;
-}
 .header {
 	grid-area: header;
 	padding: 0px;
@@ -51,6 +48,7 @@ body {
 	background: lightblue;
 	border-left: 1px solid;
 	border-right: none;
+	padding: 25px;
 }
 .pizza-list {
 	grid-area: pizza-list;
