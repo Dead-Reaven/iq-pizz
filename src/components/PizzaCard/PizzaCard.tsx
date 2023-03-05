@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import MultiSelectDropDown from '../MultySelect'
+import MultiSelectDropDown from '../UI/MultySelect'
 import './PizzaCard.css'
 
 const options = [

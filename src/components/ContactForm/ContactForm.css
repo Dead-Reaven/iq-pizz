@@ -31,6 +31,13 @@ select {
 .type-delivery {
 	display: flex;
 }
+.contact_container_delivey_fields {
+	display: flex;
+}
+.contact_container_delivey_fields * {
+	height: 34px;
+	margin-left: 0px;
+}
 .adress {
 	display: block;
 	width: 100%;
