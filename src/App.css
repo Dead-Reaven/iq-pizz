@@ -66,4 +66,5 @@ input {
 	grid-area: total-order;
 	border-top: 1px rgba(69, 62, 62, 0.522) solid;
 	background: pink;
+	padding: 0px;
 }
