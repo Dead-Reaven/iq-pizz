@@ -1,12 +1,26 @@
 .total-order_container {
-	position: relative;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	/* position: relative; */
 	height: 100%;
 	width: 100%;
 	overflow: auto;
 }
+.total-order_container pre:hover {
+	cursor: pointer;
+	background: lightgreen;
+}
 .total-order_container pre {
-	position: absolute;
-	top: 50%;
-	left: 20%;
-	transform: translate(-50%, -50%);
+	/* position: absolute; */
+	text-align: left;
+	padding: 0px 15px;
+	/* transform: translate(-50%, -50%); */
+}
+.toast-copyed {
+	background: rgba(64, 149, 7, 0.557);
+	text-align: center;
+	font-size: 22px;
+	font-weight: 700;
+	color: white;
 }

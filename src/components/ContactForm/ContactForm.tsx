@@ -35,8 +35,8 @@ function ContactForm() {
 								</option>
 								<option value='courier'>Доставка</option>
 								<option value='courier_time'>Доставка врем</option>
-								{/* <option value='self_delivery'>Самовивіз</option> */}
-								{/* <option value='self_delivery_time'>Самовивіз врем</option> */}
+								{/* <option value='self_delivery'>Самовивіз</option>
+								<option value='self_delivery_time'>Самовивіз врем</option> */}
 							</Form.Select>
 							<input
 								type='time'
