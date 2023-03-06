@@ -30,18 +30,18 @@ import { nanoid } from 'nanoid'
 // }>
 
 interface TestProductTypes {
-	data: Array<{ id: string }>
+	data: Array<{ id: string; name?: string }>
 }
 // 	id: string
 // }>
 
-const initialState: TestProductTypes = { data: [{ id: nanoid() }] }
+const initialState: TestProductTypes = { data: [] }
 const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		addProduct: (state) => {
-			state.data.push({ id: nanoid() })
+		addProduct: (state, action: PayloadAction<{ name: string }>) => {
+			state.data.push({ id: nanoid(), name: action.payload.name })
 		},
 		delProduct: (state, action: PayloadAction<{ id: string }>) => {
 			state.data = state.data.filter((el) => el.id !== action.payload.id)

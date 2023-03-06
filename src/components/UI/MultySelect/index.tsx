@@ -1,4 +1,4 @@
-import { MultiSelect } from 'react-multi-select-component'
+import { MultiSelect, SelectProps } from 'react-multi-select-component'
 import './MultySelect.css'
 // to show more documentation https://www.npmjs.com/package/react-multi-select-component
 
@@ -10,23 +10,23 @@ import './MultySelect.css'
 // 	return labels.length ? labels : 'Додати'
 // }
 
-const localisation = {
-	allItemsAreSelected: 'Усі добавки прийняті ✔️',
-	clearSearch: 'Очисти пошук',
-	clearSelected: 'Очистити вибране',
-	noOptions: 'Немає опцій',
-	search: 'Пошук... 🔎',
-	selectAll: 'Всі ✔️',
-	selectAllFiltered: 'Вибрати всі (по фільтру)',
-	selectSomeItems: 'Додати',
-	create: 'Створити',
-}
-
-function MultiSelectDropDown(props: any) {
+function MultiSelectDropDown(props: SelectProps) {
+	const localisation = {
+		allItemsAreSelected: 'Усі добавки прийняті ✔️',
+		clearSearch: 'Очисти пошук',
+		clearSelected: 'Очистити вибране',
+		noOptions: 'Немає опцій',
+		search: 'Пошук... 🔎',
+		selectAll: 'Всі ✔️',
+		selectAllFiltered: 'Вибрати всі (по фільтру)',
+		selectSomeItems: props.labelledBy,
+		create: 'Створити',
+	}
 	return (
 		<MultiSelect
 			{...props}
 			// valueRenderer={customValueRenderer}
+			debounceDuration={0}
 			overrideStrings={localisation}
 		/>
 	)

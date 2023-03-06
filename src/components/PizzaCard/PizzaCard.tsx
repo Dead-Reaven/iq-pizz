@@ -17,16 +17,16 @@ const options = [
 	{ label: 'Бекон 🥓', value: '8' },
 ]
 
-function PizzaCard({ id }: { id: string }) {
+function PizzaCard({ id, name }: { id: string; name?: string }) {
 	const [count, setCount] = useState(1)
 	const [selected, setSelected] = useState<
 		Array<{ label: string; value: string }>
 	>([])
+
 	const dispatch = useDispatch()
 
 	const plusCount = () => setCount((prev) => prev + 1)
 	const minusCount = () => setCount((prev) => (prev > 1 ? prev - 1 : prev))
-	console.log(id)
 	// const delProduct = () => {}
 
 	return (
@@ -34,18 +34,18 @@ function PizzaCard({ id }: { id: string }) {
 			<div className='pizza-card'>
 				<form>
 					<div className='pizza-card_header'>
-						<input
+						<div className='pizza-card_header_name'>{name}</div>
+						{/* <input
 							className='pizza-card_header_name '
 							list='pizza-list'
 							placeholder='Піца'
-						/>
-						<datalist id='pizza-list'>
+						/> */}
+						{/* <datalist id='pizza-list'>
 							<option value='1' />
 							<option value='2' />
 							<option value='3' />
-						</datalist>
+						</datalist> */}
 						<div className='pizza-card_header_block-selected-items'>
-							{id}
 							{selected.map(({ label }) => (
 								<span className='pizza-card_header_block-selected-items_item'>
 									{label.slice(0, label.length - 2)}
@@ -59,7 +59,7 @@ function PizzaCard({ id }: { id: string }) {
 							</span>
 						</div>
 					</div>
-					<div className='pizza-card_footer'>
+					<div className='pizza-card_footer '>
 						<MultiSelectDropDown
 							className='pizza-card_footer_select-addition'
 							options={options}

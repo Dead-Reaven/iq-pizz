@@ -8,4 +8,16 @@
 	--rmsc-p: 10px; /* Spacing */
 	--rmsc-radius: 4px; /* Radius */
 	--rmsc-h: 38px; /* Height */
+	
 }
+  /* Hide the checkbox square */
+  .hide-checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;	
+    -moz-appearance: none;
+    width: 0;
+    height: 0;
+    border: none;
+    outline: none;
+  }
+
