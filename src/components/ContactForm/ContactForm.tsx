@@ -1,17 +1,51 @@
+import React from 'react'
 import Form from 'react-bootstrap/Form'
-import { useState } from 'react'
+import { HTMLInputTypeAttribute, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateInfo, OrderInfoTypes } from '../../features/orderSlice'
 import './ContactForm.css'
 
-function ContactForm() {
-	const [deliveryType, setDeliveryType] = useState<string>('')
-	const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, 5))
+import { RootState } from '../../app/store'
 
+function ContactForm() {
+	const info = useSelector((state: RootState) => state.order?.info)
+	const [deliveryType, setDeliveryType] = useState<string>('')
 	const toggleDeliveryType = (type: string) => setDeliveryType(type)
+	const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, 5))
+	const [personalData, setPersonalData] = useState({ name: '', tel: '' })
+	const [store, setStore] = useState('')
+	const [adress, setAdress] = useState('')
+	const [contactState, setContactState] = useState<OrderInfoTypes>({
+		//orderinfotypes props:
+		store: '',
+		contact: {
+			name: '',
+			tel: '',
+		},
+		deliveryType: {
+			type: '',
+			adress: '',
+			time: '',
+		},
+	})
+
+	const dispatch = useDispatch()
+	// event: React.FormEvent<HTMLFormElement>
+	const onUpdateHandler = (event: any) => {
+		event.preventDefault()
+
+		console.log(event.target.id, event.target.value)
+		const id: string = event.target.id
+		const value: string = event.target.value
+
+		
+		// if (info) dispatch(updateInfo({...info, info[]: value  })) }
+	}
 
 	return (
 		<div className='contact'>
-			<form className='contact_container'>
-				<input list='categories' placeholder='Торгова точка' />
+			<form className='contact_container' onChange={onUpdateHandler}>
+				<input list='categories' placeholder='Торгова точка' id='store' />
 				<datalist id='categories'>
 					<option value='ПодМостом' />
 					<option value='Рандом' />
@@ -19,8 +53,8 @@ function ContactForm() {
 				</datalist>
 
 				<div className='contact_container_personal-data'>
-					<input type='text' placeholder="Ім'я" />
-					<input type='text' placeholder='Тел' />
+					<input type='text' placeholder="Ім'я" id='name' />
+					<input type='text' placeholder='Тел' id='tel' />
 				</div>
 
 				<div className='contact_container_delivey'>
@@ -29,6 +63,7 @@ function ContactForm() {
 							<Form.Select
 								className='select-type-delivery'
 								onChange={(e) => toggleDeliveryType(e.target.value)}
+								id='deliveryType'
 							>
 								<option value='' selected hidden>
 									Тип доставки
@@ -43,12 +78,18 @@ function ContactForm() {
 					<div className='contact_container_delivey_fields'>
 						{deliveryType.includes('courier') ? (
 							<>
-								<input type='text' placeholder='Адреса' className='adress' />
+								<input
+									type='text'
+									id='adress'
+									placeholder='Адреса'
+									className='adress'
+								/>
 								{deliveryType.includes('time') && (
 									<input
 										type='time'
 										className='contact_container_delivey_time'
 										value={time}
+										id='time'
 										onChange={(e) => setTime(e.target.value)}
 									/>
 								)}
@@ -58,6 +99,7 @@ function ContactForm() {
 								<input
 									type='time'
 									className='contact_container_delivey_time'
+									id='time'
 									value={time}
 									onChange={(e) => setTime(e.target.value)}
 								/>
@@ -65,7 +107,10 @@ function ContactForm() {
 						)}
 					</div>
 				</div>
+				{/* <input type="submit" value="Accept" onSubmit={}/> */}
+				{/* <input type="reset" value="Reset" /> */}
 			</form>
+			<pre>{`${info}`}</pre>
 		</div>
 	)
 }

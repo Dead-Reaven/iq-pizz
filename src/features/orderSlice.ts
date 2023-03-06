@@ -10,26 +10,24 @@ import { nanoid } from 'nanoid'
 // 	id: string
 // }>
 
-// interface OrderTypes {
-// 	store: string // a store point adress
-// 	contact: {
-// 		name: string
-// 		tel: string
-// 	}
+interface OrderInfoTypes {
+	store: string // a store point adress
+	contact: {
+		name: string
+		tel: string
+	}
 
-// 	deliveryType: {
-// 		type: string | 'delviery' | 'self_delivery'
-// 		adress?: string
-// 		time?: string
-// 	}
+	deliveryType: {
+		type: string //| 'delviery' | 'self_delivery'
+		adress?: string
+		time?: string
+	}
 
-// 	food: ProductTypes
-// }
-// type TestProductTypes = Array<{
-// 	id: string
-// }>
+	// food?: null //ProductTypes
+}
 
 interface TestProductTypes {
+	info?: OrderInfoTypes
 	data: Array<{ id: string; name: string }>
 }
 // 	id: string
@@ -49,9 +47,13 @@ const orderSlice = createSlice({
 		delProduct: (state, action: PayloadAction<{ id: string }>) => {
 			state.data = state.data.filter((el) => el.id !== action.payload.id)
 		},
+		updateInfo: (state, action: PayloadAction<OrderInfoTypes>) => {
+			state.info = action.payload
+		},
 	},
 })
 
+export type {OrderInfoTypes}
 export { orderSlice }
-export const { updateProducts, delProduct } = orderSlice.actions
+export const { updateProducts, delProduct, updateInfo } = orderSlice.actions
 export default orderSlice.reducer
