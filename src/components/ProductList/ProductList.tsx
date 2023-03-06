@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import PizzaCard from '../PizzaCard/PizzaCard'
-import { addProduct } from '../../features/orderSlice'
+import { updateProducts } from '../../features/orderSlice'
 import { RootState } from '../../app/store'
-import './ProductList.css'
 import MultiSelectDropDown from '../UI/MultySelect'
+import './ProductList.css'
 
 const options = [
 	{ label: 'Паперони', value: '1' },
@@ -22,21 +22,16 @@ function ProductList() {
 	const [selected, setSelected] = useState<
 		Array<{ label: string; value: string }>
 	>([])
-	const pushToState = (name: string) => {
-		// dispatch(addProduct({ name }))
-	}
+
 	useEffect(() => {
-		const lastItem = selected[selected.length - 1]
-
-		if (lastItem) {
-			// setSelected([lastItem])
-			dispatch(addProduct({ name: lastItem?.label }))
-		}
+		dispatch(
+			updateProducts(
+				selected.map(({ label }) => {
+					return { name: label }
+				})
+			)
+		)
 	}, [selected])
-
-	// useEffect(() => {
-	// 	return () => setSelected([])
-	// }, [orderData])
 
 	return (
 		<div className='pizza-list'>
@@ -45,7 +40,9 @@ function ProductList() {
 					<div className='pizza-list_container_flex_block-add-poduct hide-checkbox'>
 						<MultiSelectDropDown
 							options={options}
-							value={selected}
+							value={orderData.map(({ name, id }) => {
+								return { label: name, value: id }
+							})}
 							hasSelectAll={false}
 							onChange={setSelected}
 							labelledBy='Обрати піццу'

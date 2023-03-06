@@ -30,7 +30,7 @@ import { nanoid } from 'nanoid'
 // }>
 
 interface TestProductTypes {
-	data: Array<{ id: string; name?: string }>
+	data: Array<{ id: string; name: string }>
 }
 // 	id: string
 // }>
@@ -40,8 +40,11 @@ const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		addProduct: (state, action: PayloadAction<{ name: string }>) => {
-			state.data.push({ id: nanoid(), name: action.payload.name })
+		updateProducts: (state, action: PayloadAction<Array<{ name: string }>>) => {
+			// takes new array with selected products and updates the state
+			state.data = action.payload.map((product) => {
+				return { name: product.name, id: nanoid() }
+			})
 		},
 		delProduct: (state, action: PayloadAction<{ id: string }>) => {
 			state.data = state.data.filter((el) => el.id !== action.payload.id)
@@ -50,5 +53,5 @@ const orderSlice = createSlice({
 })
 
 export { orderSlice }
-export const { addProduct, delProduct } = orderSlice.actions
+export const { updateProducts, delProduct } = orderSlice.actions
 export default orderSlice.reducer
