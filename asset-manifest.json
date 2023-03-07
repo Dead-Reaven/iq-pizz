@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/iq-pizza/static/css/main.81415c1c.css",
-    "main.js": "/iq-pizza/static/js/main.0c082060.js",
+    "main.js": "/iq-pizza/static/js/main.c652c58f.js",
     "index.html": "/iq-pizza/index.html",
     "main.81415c1c.css.map": "/iq-pizza/static/css/main.81415c1c.css.map",
-    "main.0c082060.js.map": "/iq-pizza/static/js/main.0c082060.js.map"
+    "main.c652c58f.js.map": "/iq-pizza/static/js/main.c652c58f.js.map"
   },
   "entrypoints": [
     "static/css/main.81415c1c.css",
-    "static/js/main.0c082060.js"
+    "static/js/main.c652c58f.js"
   ]
 }
