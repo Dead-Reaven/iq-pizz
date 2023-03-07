@@ -6,32 +6,32 @@ import { RootState } from '../../app/store'
 import MultiSelectDropDown from '../UI/MultySelect'
 import './ProductList.css'
 
-const options = [
-	{ label: 'Паперони', value: '1' },
-	{ label: '4 сиру', value: '2' },
-	{ label: '4 мяса', value: '3' },
-	{ label: 'курка', value: '4' },
-	{ label: 'Салямі White 30', value: '5' },
-	{ label: 'Сирна салямі 30', value: '6' },
-	{ label: 'Маргарита 30', value: '7' },
+type MenuTypes = Array<{ label: string; value: number; price: number }>
+const menu: MenuTypes = [
+	{ label: 'Паперони', value: 1, price: 99 },
+	{ label: '4 сиру', value: 2, price: 129 },
+	{ label: '4 мяса', value: 3, price: 110 },
+	{ label: 'курка', value: 4, price: 90 },
+	{ label: 'Салямі White 30', value: 5, price: 150 },
+	{ label: 'Сирна салямі 30', value: 6, price: 120 },
+	{ label: 'Маргарита 30', value: 7, price: 69 },
 ]
 
 function ProductList() {
-	const orderData = useSelector((state: RootState) => state.order.data)
+	const products = useSelector((state: RootState) => state.order.products)
 	const dispatch = useDispatch()
-	const [selected, setSelected] = useState<
-		Array<{ label: string; value: string }>
-	>([])
+	const [selectedProducts, setSelectedProducts] = useState<MenuTypes>([])
 
 	useEffect(() => {
 		dispatch(
 			updateProducts(
-				selected.map(({ label }) => {
-					return { name: label }
+				selectedProducts.map(({ label, value, price }) => {
+					return { name: label, price: price } // menu[value - 1].price }
 				})
 			)
 		)
-	}, [selected])
+		console.log(selectedProducts)
+	}, [selectedProducts])
 
 	return (
 		<div className='pizza-list'>
@@ -39,18 +39,24 @@ function ProductList() {
 				<div className='pizza-list_container_flex   '>
 					<div className='pizza-list_container_flex_block-add-poduct hide-checkbox'>
 						<MultiSelectDropDown
-							options={options}
-							value={orderData.map(({ name, id }) => {
-								return { label: name, value: id }
+							options={menu}
+							value={products.map(({ name, id, price }) => {
+								return { label: name, value: id, price }
 							})}
 							hasSelectAll={false}
-							onChange={setSelected}
+							onChange={setSelectedProducts}
 							labelledBy='Обрати піццу'
 						/>
 					</div>
 
-					{orderData.map(({ name, id }) => (
-						<PizzaCard id={id} name={name} key={id} />
+					{products.map(({ name, id, price, quantity }) => (
+						<PizzaCard
+							name={name}
+							id={id}
+							price={price}
+							quantity={quantity}
+							key={id}
+						/>
 					))}
 				</div>
 			</div>

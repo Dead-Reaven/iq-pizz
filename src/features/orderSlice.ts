@@ -1,31 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
-// type ProductTypes = Array<{
-// 	name: string
-// 	addition?: Array<{ name: string; price: number }>
-// 	comment: string
-// 	quantity: number
-// 	price: number
-// 	id: string
-// }>
+interface ProductTypes {
+	name: string
+	// addition?: Array<{ name: string; price: number }>
+	// comment?: string
+	quantity?: number | 1
+	price: number
+	id: string
+}
 
 interface OrderInfoTypes {
-	store?: string // a store point adress
-	name?: string
-	tel?: string
-	delivery_type?: string
+	store: string // a store point adress
+	name: string
+	tel: string
+	delivery_type: string
 	adress?: string
 	time?: string
 }
 
-interface TestProductTypes {
+interface orderTypes {
 	info: OrderInfoTypes
-	data: Array<{ id: string; name: string }>
+	products: Array<ProductTypes>
 }
 
-const initialState: TestProductTypes = {
-	data: [],
+const initialState: orderTypes = {
+	products: [],
 	info: {
 		store: '',
 		name: '',
@@ -39,15 +39,32 @@ const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		updateProducts: (state, action: PayloadAction<Array<{ name: string }>>) => {
-			// takes new array with selected products and updates the state
-			state.data = action.payload.map((product) => {
-				return { name: product.name, id: nanoid() }
+		updateProducts: (
+			state,
+			action: PayloadAction<Array<{ name: string; price: number }>>
+		) => {
+			state.products = action.payload.map((product) => {
+				return { name: product.name, id: nanoid(), price: product.price }
 			})
+			console.log(action.payload);
 		},
 		delProduct: (state, action: PayloadAction<{ id: string }>) => {
-			state.data = state.data.filter((el) => el.id !== action.payload.id)
+			state.products = state.products.filter(
+				(el) => el.id !== action.payload.id
+			)
 		},
+		updateQuantity: (
+			state,
+			action: PayloadAction<{ id: string; quantity: number }>
+		) => {
+			state.products = state.products.map((product) => {
+				if (product.id === action.payload.id)
+					product.quantity = action.payload.quantity
+
+				return product
+			})
+		},
+
 		updateInfo: (
 			state,
 			action: PayloadAction<{ key: keyof OrderInfoTypes; value: string }>
@@ -57,7 +74,8 @@ const orderSlice = createSlice({
 	},
 })
 
-export type { OrderInfoTypes }
+export type { OrderInfoTypes, ProductTypes }
 export { orderSlice }
-export const { updateProducts, delProduct, updateInfo } = orderSlice.actions
+export const { updateProducts, updateQuantity, delProduct, updateInfo } =
+	orderSlice.actions
 export default orderSlice.reducer

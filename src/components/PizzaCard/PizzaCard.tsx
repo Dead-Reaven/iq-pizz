@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import MultiSelectDropDown from '../UI/MultySelect'
 import { RiDeleteBin6Line } from 'react-icons/ri'
-import { delProduct } from '../../features/orderSlice'
-
+import { delProduct, updateQuantity } from '../../features/orderSlice'
+import { ProductTypes } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import './PizzaCard.css'
 
@@ -17,17 +17,20 @@ const options = [
 	{ label: 'Бекон 🥓', value: '8' },
 ]
 
-function PizzaCard({ id, name }: { id: string; name?: string }) {
-	const [count, setCount] = useState(1)
+function PizzaCard({ id, name, price, quantity = 1 }: ProductTypes) {
 	const [selected, setSelected] = useState<
 		Array<{ label: string; value: string }>
 	>([])
 
 	const dispatch = useDispatch()
 
-	const plusCount = () => setCount((prev) => prev + 1)
-	const minusCount = () => setCount((prev) => (prev > 1 ? prev - 1 : prev))
-	// const delProduct = () => {}
+	const plusCount = () => {
+		dispatch(updateQuantity({ quantity: quantity + 1, id }))
+	}
+
+	const minusCount = () => {
+		dispatch(updateQuantity({ quantity: quantity - 1, id }))
+	}
 
 	return (
 		<div className='container_pizza-card'>
@@ -35,16 +38,6 @@ function PizzaCard({ id, name }: { id: string; name?: string }) {
 				<form>
 					<div className='pizza-card_header'>
 						<div className='pizza-card_header_name'>{name}</div>
-						{/* <input
-							className='pizza-card_header_name '
-							list='pizza-list'
-							placeholder='Піца'
-						/> */}
-						{/* <datalist id='pizza-list'>
-							<option value='1' />
-							<option value='2' />
-							<option value='3' />
-						</datalist> */}
 						<div className='pizza-card_header_block-selected-items'>
 							{selected.map(({ label }) => (
 								<span className='pizza-card_header_block-selected-items_item'>
@@ -53,9 +46,9 @@ function PizzaCard({ id, name }: { id: string; name?: string }) {
 							))}
 						</div>
 						<div className='pizza-card_header_block-price'>
-							<h4 className='pizza-card_header_block-price_price'>99$</h4>
+							<h4 className='pizza-card_header_block-price_price'>{price}₴</h4>
 							<span className='pizza-card_header_block-prise_count'>
-								{count > 1 && `x${count}`}
+								{quantity > 1 && `x${quantity}`}
 							</span>
 						</div>
 					</div>
@@ -74,7 +67,7 @@ function PizzaCard({ id, name }: { id: string; name?: string }) {
 						/>
 						<div className='pizza-card_footer_count-block'>
 							<input type='button' value='+' onClick={plusCount} />
-							{count > 1 && (
+							{quantity > 1 && (
 								<input type='button' value='-' onClick={minusCount} />
 							)}
 						</div>
