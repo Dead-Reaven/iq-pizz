@@ -7,30 +7,34 @@ import { useDispatch } from 'react-redux'
 import './PizzaCard.css'
 
 const options = [
-	{ label: 'Виноград 🍇', value: '1' },
-	{ label: 'Манго 🥭', value: '2' },
-	{ label: 'Полуниця 🍓', value: '3' },
-	{ label: 'Сир 🧀', value: '4' },
-	{ label: 'Бекон 🥓', value: '5' },
-	{ label: 'Полуниця 🍓', value: '6' },
-	{ label: 'Сир 🧀', value: '7' },
-	{ label: 'Бекон 🥓', value: '8' },
+	{ label: 'Виноград 🍇', value: '1', price: 20 },
+	{ label: 'Манго 🥭', value: '2', price: 10 },
+	{ label: 'Полуниця 🍓', value: '3', price: 40 },
+	{ label: 'Сир 🧀', value: '4', price: 50 },
+	{ label: 'Бекон 🥓', value: '5', price: 30 },
+	{ label: 'Полуниця 🍓', value: '6', price: 29 },
+	{ label: 'Сир 🧀', value: '7', price: 20 },
+	{ label: 'Бекон 🥓', value: '8', price: 50 },
 ]
 
-function PizzaCard({ id, name, price, quantity = 1 }: ProductTypes) {
+function PizzaCard({
+	id,
+	name,
+	price,
+	totalPrice,
+	quantity = 1,
+}: ProductTypes) {
 	const [selected, setSelected] = useState<
 		Array<{ label: string; value: string }>
 	>([])
 
 	const dispatch = useDispatch()
 
-	const plusCount = () => {
+	const plusCount = () =>
 		dispatch(updateQuantity({ quantity: quantity + 1, id }))
-	}
 
-	const minusCount = () => {
+	const minusCount = () =>
 		dispatch(updateQuantity({ quantity: quantity - 1, id }))
-	}
 
 	return (
 		<div className='container_pizza-card'>
@@ -46,7 +50,12 @@ function PizzaCard({ id, name, price, quantity = 1 }: ProductTypes) {
 							))}
 						</div>
 						<div className='pizza-card_header_block-price'>
-							<h4 className='pizza-card_header_block-price_price'>{price}₴</h4>
+							<h4
+								className='pizza-card_header_block-price_price'
+								style={quantity > 1 ? { color: 'red' } : { color: 'black' }}
+							>
+								{totalPrice}₴
+							</h4>
 							<span className='pizza-card_header_block-prise_count'>
 								{quantity > 1 && `x${quantity}`}
 							</span>

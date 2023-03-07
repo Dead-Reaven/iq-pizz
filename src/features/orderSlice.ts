@@ -2,11 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid'
 
 interface ProductTypes {
-	name: string
+	readonly name: string
 	// addition?: Array<{ name: string; price: number }>
 	// comment?: string
-	quantity?: number | 1
-	price: number
+	readonly price: number
+	quantity?: number
+	totalPrice?: number
 	id: string
 }
 
@@ -39,15 +40,20 @@ const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		updateProducts: (
-			state,
-			action: PayloadAction<Array<{ name: string; price: number }>>
-		) => {
-			state.products = action.payload.map((product) => {
-				return { name: product.name, id: nanoid(), price: product.price }
+		addProduct: (state, action: PayloadAction<ProductTypes>) => {
+			state.products.push({
+				name: action.payload.name,
+				price: action.payload.price,
+				id: action.payload.id,
+				quantity: 1,
+				totalPrice: action.payload.price,
 			})
-			console.log(action.payload);
 		},
+
+		clearProducts: (state) => {
+			state.products = []
+		},
+
 		delProduct: (state, action: PayloadAction<{ id: string }>) => {
 			state.products = state.products.filter(
 				(el) => el.id !== action.payload.id
@@ -57,14 +63,16 @@ const orderSlice = createSlice({
 			state,
 			action: PayloadAction<{ id: string; quantity: number }>
 		) => {
+			const { quantity, id } = action.payload
 			state.products = state.products.map((product) => {
-				if (product.id === action.payload.id)
-					product.quantity = action.payload.quantity
+				if (product.id === id) {
+					product.quantity = quantity
+					product.totalPrice = product.price * quantity
+				}
 
 				return product
 			})
 		},
-
 		updateInfo: (
 			state,
 			action: PayloadAction<{ key: keyof OrderInfoTypes; value: string }>
@@ -76,6 +84,12 @@ const orderSlice = createSlice({
 
 export type { OrderInfoTypes, ProductTypes }
 export { orderSlice }
-export const { updateProducts, updateQuantity, delProduct, updateInfo } =
-	orderSlice.actions
+export const {
+	clearProducts,
+	updateQuantity,
+	delProduct,
+	updateInfo,
+	addProduct,
+	// updatePrice,
+} = orderSlice.actions
 export default orderSlice.reducer

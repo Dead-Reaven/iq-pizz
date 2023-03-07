@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import PizzaCard from '../PizzaCard/PizzaCard'
-import { updateProducts } from '../../features/orderSlice'
+import { clearProducts, addProduct } from '../../features/orderSlice'
 import { RootState } from '../../app/store'
 import MultiSelectDropDown from '../UI/MultySelect'
+import { nanoid } from 'nanoid'
 import './ProductList.css'
 
 type MenuTypes = Array<{ label: string; value: number; price: number }>
@@ -23,14 +24,19 @@ function ProductList() {
 	const [selectedProducts, setSelectedProducts] = useState<MenuTypes>([])
 
 	useEffect(() => {
-		dispatch(
-			updateProducts(
-				selectedProducts.map(({ label, value, price }) => {
-					return { name: label, price: price } // menu[value - 1].price }
+		const length = selectedProducts.length
+		if (length > products.length) {
+			const lastItem = selectedProducts[length - 1]
+			dispatch(
+				addProduct({
+					name: lastItem.label,
+					price: lastItem.price,
+					id: nanoid(),
 				})
 			)
-		)
-		console.log(selectedProducts)
+		} else {
+			dispatch(clearProducts())
+		}
 	}, [selectedProducts])
 
 	return (
@@ -49,13 +55,14 @@ function ProductList() {
 						/>
 					</div>
 
-					{products.map(({ name, id, price, quantity }) => (
+					{products.map(({ name, id, price, quantity, totalPrice }) => (
 						<PizzaCard
 							name={name}
 							id={id}
 							price={price}
 							quantity={quantity}
 							key={id}
+							totalPrice={price * (quantity ?? 1)}
 						/>
 					))}
 				</div>
