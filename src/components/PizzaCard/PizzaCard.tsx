@@ -1,8 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MultiSelectDropDown from '../UI/MultySelect'
 import { RiDeleteBin6Line } from 'react-icons/ri'
-import { delProduct, updateQuantity } from '../../features/orderSlice'
-import { ProductTypes } from '../../features/orderSlice'
+import {
+	delProduct,
+	updateQuantity,
+	updateAddition,
+	updateProductPrice,
+} from '../../features/orderSlice'
+import { ProductTypes, AdditionTypes } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import './PizzaCard.css'
 
@@ -17,24 +22,48 @@ const options = [
 	{ label: 'Бекон 🥓', value: '8', price: 50 },
 ]
 
-function PizzaCard({
-	id,
-	name,
-	price,
-	totalPrice,
-	quantity = 1,
-}: ProductTypes) {
+interface ProductCard {
+	product: ProductTypes
+}
+
+function PizzaCard(props: ProductCard) {
+	const { id, name, price, addition, comment, quantity, totalPrice } =
+		props.product
+
 	const [selected, setSelected] = useState<
 		Array<{ label: string; value: string }>
 	>([])
 
 	const dispatch = useDispatch()
 
-	const plusCount = () =>
-		dispatch(updateQuantity({ quantity: quantity + 1, id }))
+	const updateCurrentPrice = () => {
+		dispatch(updateProductPrice({ id }))
+	}
 
-	const minusCount = () =>
+	const plusQuantity = () => {
+		dispatch(updateQuantity({ quantity: quantity + 1, id }))
+		updateCurrentPrice()
+	}
+
+	const minusQuantity = () => {
 		dispatch(updateQuantity({ quantity: quantity - 1, id }))
+		updateCurrentPrice()
+	}
+
+	useEffect(() => {
+		dispatch(
+			updateAddition({
+				id: id,
+				addition: selected.map((addition) => {
+					return {
+						name: addition.label,
+						price: options[+addition.value - 1].price,
+					}
+				}),
+			})
+		)
+		updateCurrentPrice()
+	}, [selected])
 
 	return (
 		<div className='container_pizza-card'>
@@ -75,9 +104,9 @@ function PizzaCard({
 							placeholder='Коментарій'
 						/>
 						<div className='pizza-card_footer_count-block'>
-							<input type='button' value='+' onClick={plusCount} />
+							<input type='button' value='+' onClick={plusQuantity} />
 							{quantity > 1 && (
-								<input type='button' value='-' onClick={minusCount} />
+								<input type='button' value='-' onClick={minusQuantity} />
 							)}
 						</div>
 					</div>

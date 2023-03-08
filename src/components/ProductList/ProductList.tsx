@@ -4,7 +4,6 @@ import PizzaCard from '../PizzaCard/PizzaCard'
 import { clearProducts, addProduct } from '../../features/orderSlice'
 import { RootState } from '../../app/store'
 import MultiSelectDropDown from '../UI/MultySelect'
-import { nanoid } from 'nanoid'
 import './ProductList.css'
 
 type MenuTypes = Array<{ label: string; value: number; price: number }>
@@ -26,17 +25,16 @@ function ProductList() {
 	useEffect(() => {
 		const length = selectedProducts.length
 		if (length > products.length) {
-			const lastItem = selectedProducts[length - 1]
+			// if we add product
+			const { label, price } = selectedProducts[length - 1] 
 			dispatch(
+				// add selected item to global state
 				addProduct({
-					name: lastItem.label,
-					price: lastItem.price,
-					id: nanoid(),
+					name: label,
+					price: price,
 				})
 			)
-		} else {
-			dispatch(clearProducts())
-		}
+		} else if (selectedProducts.length === 0) dispatch(clearProducts())
 	}, [selectedProducts])
 
 	return (
@@ -55,15 +53,8 @@ function ProductList() {
 						/>
 					</div>
 
-					{products.map(({ name, id, price, quantity, totalPrice }) => (
-						<PizzaCard
-							name={name}
-							id={id}
-							price={price}
-							quantity={quantity}
-							key={id}
-							totalPrice={price * (quantity ?? 1)}
-						/>
+					{products.map((product) => (
+						<PizzaCard product={product} key={product.id} />
 					))}
 				</div>
 			</div>
