@@ -9,6 +9,7 @@ function Order() {
 	const [show, setShow] = useState(false)
 
 	const orderState = useSelector((state: RootState) => state.order.info)
+	const productsState = useSelector((state: RootState) => state.order.products)
 
 	const deliveryType = orderState.delivery_type?.length
 		? orderState.delivery_type?.includes('self')
@@ -25,24 +26,28 @@ function Order() {
 		`${orderState.store}`,
 		`${deliveryType} ${orderState.time}`,
 		`${orderState.adress} `,
-		`Итого: 99`,
+		...productsState.map(
+			(product) =>
+				`${product.name} ${product.addition?.map(
+					({ name }) => `${name.slice(0, name.length - 2)}`
+				)} ${product?.comment || ''}`
+		),
+
+		`${
+			productsState.length
+				? 'Итого:' +
+				  productsState.reduce((acc, product) => acc + product.totalPrice, 0)
+				: ''
+		}`,
 	]
-	// const isShowResult = () => {
-	// 	let isShow = true
-	// 	order.forEach((order) => {
-	// 		if (order.length === 0) {
-	// 			isShow = false
-	// 		}
-	// 	})
-	// 	return isShow
-	// }
 
 	const orderToString = () => {
 		let string = ''
 		order.forEach((line) => {
 			string += `${line}\n`
 		})
-		return string
+
+		return string.replaceAll(',', '')
 	}
 	return (
 		<div className='total-order'>
@@ -62,7 +67,9 @@ function Order() {
 						delay={3000}
 						autohide
 					>
-						<Toast.Body className='toast-copyed'>Замовлення скопійовано 💸</Toast.Body>
+						<Toast.Body className='toast-copyed'>
+							Замовлення скопійовано 💸
+						</Toast.Body>
 					</Toast>
 				</ToastContainer>
 			</div>

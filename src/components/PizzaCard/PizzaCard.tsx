@@ -5,7 +5,7 @@ import {
 	delProduct,
 	updateQuantity,
 	updateAddition,
-	updateProductPrice,
+	writeProductComment,
 } from '../../features/orderSlice'
 import { ProductTypes, AdditionTypes } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
@@ -27,28 +27,19 @@ interface ProductCard {
 }
 
 function PizzaCard(props: ProductCard) {
-	const { id, name, price, addition, comment, quantity, totalPrice } =
-		props.product
+	const { id, name, comment, quantity, totalPrice } = props.product
 
 	const [selected, setSelected] = useState<
-		Array<{ label: string; value: string }>
+		Array<{ label: string; value: string; price: number }>
 	>([])
 
 	const dispatch = useDispatch()
 
-	const updateCurrentPrice = () => {
-		dispatch(updateProductPrice({ id }))
-	}
-
-	const plusQuantity = () => {
+	const plusQuantity = () =>
 		dispatch(updateQuantity({ quantity: quantity + 1, id }))
-		updateCurrentPrice()
-	}
 
-	const minusQuantity = () => {
+	const minusQuantity = () =>
 		dispatch(updateQuantity({ quantity: quantity - 1, id }))
-		updateCurrentPrice()
-	}
 
 	useEffect(() => {
 		dispatch(
@@ -57,12 +48,11 @@ function PizzaCard(props: ProductCard) {
 				addition: selected.map((addition) => {
 					return {
 						name: addition.label,
-						price: options[+addition.value - 1].price,
+						price: addition.price,
 					}
 				}),
 			})
 		)
-		updateCurrentPrice()
 	}, [selected])
 
 	return (
@@ -94,13 +84,25 @@ function PizzaCard(props: ProductCard) {
 						<MultiSelectDropDown
 							className='pizza-card_footer_select-addition'
 							options={options}
-							value={selected}
+							value={selected?.map(({ label, value }, id) => {
+								return {
+									label,
+									value,
+									price: options[id].price,
+								}
+							})}
 							hasSelectAll
 							onChange={setSelected}
 							labelledBy='Додати'
 						/>
 						<input
 							className='pizza-card_footer_comment'
+							value={comment}
+							onChange={(e) => {
+								dispatch(
+									writeProductComment({ id: id, comment: e.target.value })
+								)
+							}}
 							placeholder='Коментарій'
 						/>
 						<div className='pizza-card_footer_count-block'>

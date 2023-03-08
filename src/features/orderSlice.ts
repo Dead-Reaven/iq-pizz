@@ -38,6 +38,21 @@ const initialState: orderTypes = {
 		time: '',
 	},
 }
+
+const updateProductPrice = (products: Array<ProductTypes>, id: string) => {
+	const product = products.find((product) => product.id === id)
+	if (product) {
+		product.totalPrice = product.quantity * product.price
+		if (product.addition?.length) {
+			product.totalPrice +=
+				product.quantity *
+				product.addition.reduce((sum, product) => sum + product.price, 0)
+		}
+		return product.totalPrice
+	}
+	return 0
+}
+
 const orderSlice = createSlice({
 	name: 'order',
 	initialState,
@@ -71,7 +86,10 @@ const orderSlice = createSlice({
 		) => {
 			const { quantity, id } = action.payload
 			state.products = state.products.map((product) => {
-				if (product.id === id) product.quantity = quantity
+				if (product.id === id) {
+					product.quantity = quantity
+					product.totalPrice = updateProductPrice(state.products, id)
+				}
 
 				return product
 			})
@@ -82,22 +100,20 @@ const orderSlice = createSlice({
 		) => {
 			const { addition, id } = action.payload
 			state.products = state.products.map((product) => {
-				if (product.id === id) product.addition = addition
-
+				if (product.id === id) {
+					product.addition = addition
+					product.totalPrice = updateProductPrice(state.products, id)
+				}
 				return product
 			})
 		},
-
-		updateProductPrice: (state, action: PayloadAction<{ id: string }>) => {
-			// this function updates the product price  and calculates the quantity and addition food
+		writeProductComment: (
+			state,
+			action: PayloadAction<{ id: string; comment: string }>
+		) => {
 			state.products = state.products.map((product) => {
 				if (product.id === action.payload.id) {
-					product.totalPrice = product.quantity * product.price
-					if (product.addition?.length) {
-						product.totalPrice +=
-							product.quantity *
-							product.addition.reduce((sum, product) => sum + product.price, 0)
-					}
+					product.comment = action.payload.comment
 				}
 				return product
 			})
@@ -121,6 +137,6 @@ export const {
 	updateInfo,
 	addProduct,
 	updateAddition,
-	updateProductPrice,
+	writeProductComment,
 } = orderSlice.actions
 export default orderSlice.reducer
