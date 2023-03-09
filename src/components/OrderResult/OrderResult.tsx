@@ -30,9 +30,11 @@ function OrderResult() {
 			(product) =>
 				`${product.quantity > 1 ? '(' : ''}${product.label} ${
 					product.quantity > 1 ? 'x' + product.quantity + ')' : ''
-				} ${product.addition?.map(
-					({ label: name }) => '+' + `${name.slice(0, name.length - 2)}`
-				)} ${product?.comment || ''}`
+				} ${
+					product?.addition
+						? product.addition?.map(({ label }) => '+' + `${label}`)
+						: ''
+				} ${product?.comment || ''}`
 		),
 
 		`${

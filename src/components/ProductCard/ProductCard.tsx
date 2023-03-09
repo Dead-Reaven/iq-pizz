@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import MultiSelectDropDown from '../UI/MultySelect'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import {
@@ -9,7 +8,7 @@ import {
 } from '../../features/orderSlice'
 import { ProductTypes, AdditionTypes } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
-import './PizzaCard.css'
+import './ProductCard.css'
 
 const additionFood: AdditionTypes = [
 	{ label: 'Виноград ', value: '1', price: 20, ico: '🍇' },

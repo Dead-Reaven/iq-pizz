@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import PizzaCard from '../PizzaCard/PizzaCard'
+import PizzaCard from '../ProductCard/ProductCard'
 import { clearProducts, addProduct } from '../../features/orderSlice'
 import { RootState } from '../../app/store'
 import MultiSelectDropDown from '../UI/MultySelect'

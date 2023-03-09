@@ -1,2 +1,2 @@
-import OrderResult from './Order'
+import OrderResult from './OrderResult'
 export default OrderResult
