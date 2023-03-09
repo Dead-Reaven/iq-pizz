@@ -1,18 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import getTotalProductPrice from '../utils/updateProductPrice'
 import { nanoid } from 'nanoid'
 
-type AdditionTypes = Array<{ name: string; price: number }>
+type AdditionTypes = Array<{
+	label: string
+	value: string // id
+	price: number
+	ico?: string
+}>
 
 type ProductTypes = {
-	readonly name: string
-	readonly price: number
+	readonly label: string
+	readonly price: number // per one item
 	readonly id: string
-	addition?: AdditionTypes
+	addition?: AdditionTypes // additional food for product
 	comment?: string
-	quantity: number
-	totalPrice: number
+	quantity: number // quantity of product items
+	totalPrice: number // per full order
 }
-
 
 interface orderTypes {
 	products: Array<ProductTypes>
@@ -22,30 +27,16 @@ const initialState: orderTypes = {
 	products: [],
 }
 
-const updateProductPrice = (products: Array<ProductTypes>, id: string) => {
-	const product = products.find((product) => product.id === id)
-	if (product) {
-		product.totalPrice = product.quantity * product.price
-		if (product.addition?.length) {
-			product.totalPrice +=
-				product.quantity *
-				product.addition.reduce((sum, product) => sum + product.price, 0)
-		}
-		return product.totalPrice
-	}
-	return 0
-}
-
 const orderSlice = createSlice({
 	name: 'products',
 	initialState,
 	reducers: {
 		addProduct: (
 			state,
-			action: PayloadAction<{ name: string; price: number }>
+			action: PayloadAction<{ label: string; price: number }>
 		) => {
 			state.products.push({
-				name: action.payload.name,
+				label: action.payload.label,
 				price: action.payload.price,
 				id: nanoid(),
 				quantity: 1,
@@ -63,7 +54,7 @@ const orderSlice = createSlice({
 			)
 		},
 
-		updateQuantity: (
+		setProductQuantity: (
 			state,
 			action: PayloadAction<{ id: string; quantity: number }>
 		) => {
@@ -71,13 +62,13 @@ const orderSlice = createSlice({
 			state.products = state.products.map((product) => {
 				if (product.id === id) {
 					product.quantity = quantity
-					product.totalPrice = updateProductPrice(state.products, id)
+					product.totalPrice = getTotalProductPrice(state.products, id)
 				}
 
 				return product
 			})
 		},
-		updateAddition: (
+		setProductAddition: (
 			state,
 			action: PayloadAction<{ id: string; addition: AdditionTypes }>
 		) => {
@@ -85,7 +76,7 @@ const orderSlice = createSlice({
 			state.products = state.products.map((product) => {
 				if (product.id === id) {
 					product.addition = addition
-					product.totalPrice = updateProductPrice(state.products, id)
+					product.totalPrice = getTotalProductPrice(state.products, id)
 				}
 				return product
 			})
@@ -108,10 +99,10 @@ export type { ProductTypes, AdditionTypes }
 export { orderSlice }
 export const {
 	clearProducts,
-	updateQuantity,
+	setProductQuantity,
 	delProduct,
 	addProduct,
-	updateAddition,
+	setProductAddition,
 	writeProductComment,
 } = orderSlice.actions
 export default orderSlice.reducer

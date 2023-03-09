@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
 import PizzaCard from '../PizzaCard/PizzaCard'
 import { clearProducts, addProduct } from '../../features/orderSlice'
 import { RootState } from '../../app/store'
@@ -7,6 +6,7 @@ import MultiSelectDropDown from '../UI/MultySelect'
 import './ProductList.css'
 
 type MenuTypes = Array<{ label: string; value: number; price: number }>
+
 const menu: MenuTypes = [
 	{ label: 'Паперони', value: 1, price: 99 },
 	{ label: '4 сиру', value: 2, price: 129 },
@@ -18,24 +18,22 @@ const menu: MenuTypes = [
 ]
 
 function ProductList() {
-	const products = useSelector((state: RootState) => state.order.products)
-	const dispatch = useDispatch()
-	const [selectedProducts, setSelectedProducts] = useState<MenuTypes>([])
+	const productsState = useSelector((state: RootState) => state.order.products)
 
-	useEffect(() => {
+	const dispatch = useDispatch()
+
+	const onSelectProductHandle = (selectedProducts: MenuTypes) => {
 		const length = selectedProducts.length
-		if (length > products.length) {
-			// if we add product
-			const { label, price } = selectedProducts[length - 1] 
+		if (length > productsState.length) {
+			// if added new product to selected
 			dispatch(
-				// add selected item to global state
 				addProduct({
-					name: label,
-					price: price,
+					// add selected item to global state
+					...selectedProducts[length - 1],
 				})
 			)
 		} else if (selectedProducts.length === 0) dispatch(clearProducts())
-	}, [selectedProducts])
+	}
 
 	return (
 		<div className='pizza-list'>
@@ -44,16 +42,16 @@ function ProductList() {
 					<div className='pizza-list_container_flex_block-add-poduct hide-checkbox'>
 						<MultiSelectDropDown
 							options={menu}
-							value={products.map(({ name, id, price }) => {
-								return { label: name, value: id, price }
+							value={productsState.map(({ label, id, price }) => {
+								return { label, price, value: id }
 							})}
 							hasSelectAll={false}
-							onChange={setSelectedProducts}
+							onChange={onSelectProductHandle}
 							labelledBy='Обрати піццу'
 						/>
 					</div>
 
-					{products.map((product) => (
+					{productsState.map((product) => (
 						<PizzaCard product={product} key={product.id} />
 					))}
 				</div>

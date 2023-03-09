@@ -1,6 +1,6 @@
 import ContactForm from './components/ContactForm/ContactForm'
 import ProductList from './components/ProductList/ProductList'
-import Order from './components/OrderResult'
+import OrderResult from './components/OrderResult'
 import Header from './components/Header'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -12,7 +12,7 @@ function App() {
 				<Header />
 				<ContactForm />
 				<ProductList />
-				<Order />
+				<OrderResult />
 			</div>
 		</div>
 	)

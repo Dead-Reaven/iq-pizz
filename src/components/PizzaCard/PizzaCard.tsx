@@ -3,23 +3,23 @@ import MultiSelectDropDown from '../UI/MultySelect'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import {
 	delProduct,
-	updateQuantity,
-	updateAddition,
+	setProductQuantity,
+	setProductAddition,
 	writeProductComment,
 } from '../../features/orderSlice'
 import { ProductTypes, AdditionTypes } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import './PizzaCard.css'
 
-const options = [
-	{ label: 'Виноград 🍇', value: '1', price: 20 },
-	{ label: 'Манго 🥭', value: '2', price: 10 },
-	{ label: 'Полуниця 🍓', value: '3', price: 40 },
-	{ label: 'Сир 🧀', value: '4', price: 50 },
-	{ label: 'Бекон 🥓', value: '5', price: 30 },
-	{ label: 'Полуниця 🍓', value: '6', price: 29 },
-	{ label: 'Сир 🧀', value: '7', price: 20 },
-	{ label: 'Бекон 🥓', value: '8', price: 50 },
+const additionFood: AdditionTypes = [
+	{ label: 'Виноград ', value: '1', price: 20, ico: '🍇' },
+	{ label: 'Манго ', value: '2', price: 10, ico: '🥭' },
+	{ label: 'Полуниця ', value: '3', price: 40, ico: '🍓' },
+	{ label: 'Сир ', value: '4', price: 50, ico: '🧀' },
+	{ label: 'Бекон ', value: '5', price: 30, ico: '🥓' },
+	{ label: 'Полуниця ', value: '6', price: 29, ico: '🍓' },
+	{ label: 'Сир ', value: '7', price: 20, ico: '🧀' },
+	{ label: 'Бекон ', value: '8', price: 50, ico: '🥓' },
 ]
 
 interface ProductCard {
@@ -27,33 +27,35 @@ interface ProductCard {
 }
 
 function PizzaCard(props: ProductCard) {
-	const { id, name, comment, quantity, totalPrice } = props.product
-
-	const [selected, setSelected] = useState<
-		Array<{ label: string; value: string; price: number }>
-	>([])
+	const {
+		id,
+		label: name,
+		comment,
+		quantity,
+		totalPrice,
+		addition,
+	} = props.product
 
 	const dispatch = useDispatch()
 
-	const plusQuantity = () =>
-		dispatch(updateQuantity({ quantity: quantity + 1, id }))
+	const plusQuantityHandle = () =>
+		dispatch(setProductQuantity({ quantity: quantity + 1, id }))
 
-	const minusQuantity = () =>
-		dispatch(updateQuantity({ quantity: quantity - 1, id }))
+	const minusQuantityHandle = () =>
+		dispatch(setProductQuantity({ quantity: quantity - 1, id }))
 
-	useEffect(() => {
+	const onDeleteProducthandle = () => {
+		dispatch(delProduct({ id }))
+	}
+
+	const handleMultiSelectChange = (addition: AdditionTypes) => {
 		dispatch(
-			updateAddition({
-				id: id,
-				addition: selected.map((addition) => {
-					return {
-						name: addition.label,
-						price: addition.price,
-					}
-				}),
+			setProductAddition({
+				id,
+				addition,
 			})
 		)
-	}, [selected])
+	}
 
 	return (
 		<div className='container_pizza-card'>
@@ -62,9 +64,9 @@ function PizzaCard(props: ProductCard) {
 					<div className='pizza-card_header'>
 						<div className='pizza-card_header_name'>{name}</div>
 						<div className='pizza-card_header_block-selected-items'>
-							{selected.map(({ label }) => (
+							{addition?.map(({ label, ico }) => (
 								<span className='pizza-card_header_block-selected-items_item'>
-									{label.slice(0, label.length - 2)}
+									{label.replace(ico ?? '', '')}
 								</span>
 							))}
 						</div>
@@ -83,17 +85,16 @@ function PizzaCard(props: ProductCard) {
 					<div className='pizza-card_footer '>
 						<MultiSelectDropDown
 							className='pizza-card_footer_select-addition'
-							options={options}
-							value={selected?.map(({ label, value }, id) => {
+							options={additionFood.map((option) => {
 								return {
-									label,
-									value,
-									price: options[id].price,
+									...option,
+									label: option.label + option.ico,
 								}
 							})}
-							hasSelectAll
-							onChange={setSelected}
+							value={addition ?? []}
+							onChange={handleMultiSelectChange}
 							labelledBy='Додати'
+							hasSelectAll
 						/>
 						<input
 							className='pizza-card_footer_comment'
@@ -106,20 +107,15 @@ function PizzaCard(props: ProductCard) {
 							placeholder='Коментарій'
 						/>
 						<div className='pizza-card_footer_count-block'>
-							<input type='button' value='+' onClick={plusQuantity} />
+							<input type='button' value='+' onClick={plusQuantityHandle} />
 							{quantity > 1 && (
-								<input type='button' value='-' onClick={minusQuantity} />
+								<input type='button' value='-' onClick={minusQuantityHandle} />
 							)}
 						</div>
 					</div>
 				</form>
 			</div>
-			<button
-				className='btn-del-product '
-				onClick={() => {
-					dispatch(delProduct({ id }))
-				}}
-			>
+			<button className='btn-del-product ' onClick={onDeleteProducthandle}>
 				<RiDeleteBin6Line />
 			</button>
 		</div>

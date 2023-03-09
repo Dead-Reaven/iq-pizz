@@ -5,7 +5,7 @@ import { RootState } from '../../app/store'
 import { useState } from 'react'
 import './Order.css'
 
-function Order() {
+function OrderResult() {
 	const [show, setShow] = useState(false)
 
 	const orderState = useSelector((state: RootState) => state.form.data)
@@ -28,8 +28,10 @@ function Order() {
 		`${orderState.adress} `,
 		...productsState.map(
 			(product) =>
-				`${product.name} ${product.addition?.map(
-					({ name }) => `${name.slice(0, name.length - 2)}`
+				`${product.quantity > 1 ? '(' : ''}${product.label} ${
+					product.quantity > 1 ? 'x' + product.quantity + ')' : ''
+				} ${product.addition?.map(
+					({ label: name }) => '+' + `${name.slice(0, name.length - 2)}`
 				)} ${product?.comment || ''}`
 		),
 
@@ -49,7 +51,7 @@ function Order() {
 
 		return string.replaceAll(',', '')
 	}
-	
+
 	return (
 		<div className='total-order'>
 			<div className='total-order_container'>
@@ -78,4 +80,4 @@ function Order() {
 	)
 }
 
-export default Order
+export default OrderResult
