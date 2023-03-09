@@ -8,7 +8,7 @@ import './Order.css'
 function Order() {
 	const [show, setShow] = useState(false)
 
-	const orderState = useSelector((state: RootState) => state.order.info)
+	const orderState = useSelector((state: RootState) => state.form.data)
 	const productsState = useSelector((state: RootState) => state.order.products)
 
 	const deliveryType = orderState.delivery_type?.length
@@ -49,6 +49,7 @@ function Order() {
 
 		return string.replaceAll(',', '')
 	}
+	
 	return (
 		<div className='total-order'>
 			<div className='total-order_container'>

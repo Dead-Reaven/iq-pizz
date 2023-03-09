@@ -1,32 +1,53 @@
+import { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateInfo, OrderInfoTypes } from '../../features/orderSlice'
+import { FormTypes, updateForm } from '../../features/formSlice'
+import MultiSelectDropDown from '../UI/MultySelect'
 import './ContactForm.css'
 
 import { RootState } from '../../app/store'
+// type StoresTypes = Array<{ label: string; value: string }>
+
+// const stores: StoresTypes = [
+// 	{
+// 		label: '1',
+// 		value: '1',
+// 	},
+// 	{
+// 		label: '2',
+// 		value: '2',
+// 	},
+// 	{
+// 		label: '3',
+// 		value: '3',
+// 	},
+// ]
 
 function ContactForm() {
-	const infoState = useSelector((state: RootState) => state.order?.info)
+	const infoState = useSelector((state: RootState) => state.form.data)
+	// const [storeSelected, setStoreSelected] = useState<StoresTypes>([])
 	const dispatch = useDispatch()
-	const onChangeFieldHandler = (field: keyof OrderInfoTypes, value: string) => {
-		dispatch(updateInfo({ key: field, value }))
+	const onChangeFieldHandler = (field: keyof FormTypes, value: string) => {
+		dispatch(updateForm({ key: field, value }))
 	}
+
 	return (
 		<div className='contact'>
-			<form className='contact_container'>
-				<input
-					list='categories'
-					value={infoState.store}
-					onChange={(event) =>
-						onChangeFieldHandler('store', event.target.value)
-					}
-					placeholder='Торгова точка'
-				/>
-				<datalist id='categories'>
-					<option value='ПодМостом' />
-					<option value='Рандом' />
-					<option value='Ластплейс' />
-				</datalist>
+			<form className='contact_container '>
+				<div className='contact_container_store-search hide-checkbox'>
+					{/* <MultiSelectDropDown
+						options={stores}
+						value={
+							storeSelected.length > 0
+								? [storeSelected[storeSelected.length - 1]]
+								: []
+						}
+						onChange={setStoreSelected}
+						hasSelectAll={false}
+						closeOnChangedValue
+						labelledBy='Торгова точка'
+					/> */}
+				</div>
 
 				<div className='contact_container_personal-data'>
 					<input

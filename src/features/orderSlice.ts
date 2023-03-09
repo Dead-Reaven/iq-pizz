@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 
 type AdditionTypes = Array<{ name: string; price: number }>
 
-interface ProductTypes {
+type ProductTypes = {
 	readonly name: string
 	readonly price: number
 	readonly id: string
@@ -13,30 +13,13 @@ interface ProductTypes {
 	totalPrice: number
 }
 
-interface OrderInfoTypes {
-	store: string // a store point adress
-	name: string
-	tel: string
-	delivery_type: string
-	adress?: string
-	time?: string
-}
 
 interface orderTypes {
-	info: OrderInfoTypes
 	products: Array<ProductTypes>
 }
 
 const initialState: orderTypes = {
 	products: [],
-	info: {
-		store: '',
-		name: '',
-		tel: '',
-		delivery_type: '',
-		adress: '',
-		time: '',
-	},
 }
 
 const updateProductPrice = (products: Array<ProductTypes>, id: string) => {
@@ -54,7 +37,7 @@ const updateProductPrice = (products: Array<ProductTypes>, id: string) => {
 }
 
 const orderSlice = createSlice({
-	name: 'order',
+	name: 'products',
 	initialState,
 	reducers: {
 		addProduct: (
@@ -118,23 +101,15 @@ const orderSlice = createSlice({
 				return product
 			})
 		},
-
-		updateInfo: (
-			state,
-			action: PayloadAction<{ key: keyof OrderInfoTypes; value: string }>
-		) => {
-			state.info[action.payload.key] = action.payload.value
-		},
 	},
 })
 
-export type { OrderInfoTypes, ProductTypes, AdditionTypes }
+export type { ProductTypes, AdditionTypes }
 export { orderSlice }
 export const {
 	clearProducts,
 	updateQuantity,
 	delProduct,
-	updateInfo,
 	addProduct,
 	updateAddition,
 	writeProductComment,
