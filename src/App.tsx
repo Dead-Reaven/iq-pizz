@@ -1,19 +1,29 @@
-import ContactForm from './components/ContactForm/ContactForm'
-import ProductList from './components/ProductList/ProductList'
-import OrderResult from './components/OrderResult'
-import Header from './components/Header'
+import React, { useState } from 'react'
+import ProductDropdown from './components/UI/SearchAddition/SearchAddition'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.css'
 
-function App() {
+interface ProductType {
+	products: Array<{
+		label: string
+		id: number
+		price: number
+		quantity: number
+		isCheked: boolean
+	}>
+}
+
+const App = () => {
+	const options: ProductType['products'] = [
+		{ label: 'Product 1', id: 0, price: 10, isCheked: false, quantity: 1 },
+		{ label: 'Product 2', id: 1, price: 20, isCheked: false, quantity: 1 },
+		{ label: 'Product 3', id: 2, price: 30, isCheked: false, quantity: 1 },
+	]
+	const [value, setValue] = useState<ProductType['products']>([])
 	return (
-		<div className='App'>
-			<div className='grid-container'>
-				<Header />
-				<ContactForm />
-				<ProductList />
-				<OrderResult />
-			</div>
+		<div style={{ maxWidth: '400px', margin: 'auto' }}>
+			<h1>Select products</h1>
+			<ProductDropdown />
+			<pre>{value.toString()}</pre>
 		</div>
 	)
 }

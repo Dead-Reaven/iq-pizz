@@ -32,7 +32,9 @@ function OrderResult() {
 					product.quantity > 1 ? 'x' + product.quantity + ')' : ''
 				} ${
 					product?.addition
-						? product.addition?.map(({ label }) => '+' + `${label}`)
+						? product.addition?.map(
+								({ label }) => '+' + `${label.slice(0, -2)}`
+						  )
 						: ''
 				} ${product?.comment || ''}`
 		),
