@@ -17,6 +17,33 @@
 	padding: 15px;
 }
 
+.product-search-box {
+	width: 100%;
+	padding: 0px;
+	border: 0px solid;
+	position: relative;
+}
+.product-search {
+	width: 100%;
+	flex: 1000;
+}
+.product-search-box-clear {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	/* top: 50%;
+	right: 25px;
+	transform: translate(15px, -50%); */
+	background: none;
+	color: rgba(187, 183, 183, 0.828);
+	width: 20px;
+	height: 20px;
+}
+.product-search-box-clear:focus,
+.product-search-box-clear:hover {
+	color: red;
+	border: none;
+}
 .product-item {
 	display: flex;
 	justify-content: space-between;

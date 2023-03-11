@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Form, Dropdown, Button } from 'react-bootstrap'
+import { Form, Dropdown, Button, ButtonGroup } from 'react-bootstrap'
 import './SearchAddition.css'
+import { RiDeleteBack2Fill, RiDeleteBin2Line } from 'react-icons/ri'
 
 // interface Options {
 // 	label: string
-// 	id: number
 // 	price: number
-// 	quantity: number
-// 	isCheked: boolean
+
 // }
 
 // interface Props {
@@ -98,6 +97,20 @@ const ProductDropdown = () => {
 			.map((el) => el.label + (el.quantity > 1 ? el.quantity : ''))
 			.toLocaleString()
 	}
+
+	const clearCheked = () => {
+		setChecked(
+			checked.map((el) => {
+				return {
+					...el,
+					isChecked: false,
+					totalPrice: el.price,
+					quantity: 0,
+				}
+			})
+		)
+	}
+
 	return (
 		<>
 			<Dropdown show={showDropdown} className=''>
@@ -108,14 +121,34 @@ const ProductDropdown = () => {
 					onClick={() => setShowDropdown((prev) => !prev)}
 				>
 					{checkedToString() || 'Select'}
+					<button
+						className='product-search-box-clear'
+						onClick={() => {
+							clearCheked()
+							setShowDropdown((prev) => !prev)
+						}}
+					>
+						<RiDeleteBin2Line />
+					</button>
 				</Dropdown.Toggle>
 				<Dropdown.Menu className='product-dropdown-menu w-100 '>
-					<Form.Control
-						placeholder='Filter'
-						onChange={handleSearchChange}
-						className='product-search-box'
-					/>
-					<Dropdown.Divider />
+					<ButtonGroup className='product-search-box'>
+						<Form.Control
+							placeholder='Filter'
+							onChange={handleSearchChange}
+							className='product-search'
+							value={searchTerm}
+						/>
+						{searchTerm.length ? (
+							<button
+								className='product-search-box-clear'
+								onClick={() => setSearchTerm('')}
+							>
+								<RiDeleteBin2Line />
+							</button>
+						) : null}
+					</ButtonGroup>
+					{/* <Dropdown.Divider /> */}
 					<Form>
 						{filteredProducts.map(
 							({ id, isChecked, label, quantity, price, totalPrice }) => {
