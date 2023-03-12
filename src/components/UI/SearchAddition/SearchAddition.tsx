@@ -1,64 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Dropdown, Button, ButtonGroup } from 'react-bootstrap'
 import './SearchAddition.css'
 import { RiDeleteBack2Fill, RiDeleteBin2Line } from 'react-icons/ri'
 
-// interface Options {
-// 	label: string
-// 	price: number
+interface Options {
+	label: string
+	price: number
+	id: any
+	quantity: number
+	totalPrice: number
+	isChecked?: boolean
+}
 
-// }
+interface Props {
+	value: Array<Options>
+	onChange: (callbackfn: Options[]) => void
+}
 
-// interface Props {
-// 	options: Array<Options>
-// 	value: Array<Options>
-// 	onChange: (value: Array<Options>) => void
-// }
-
-// const ProductDropdown = ({ options, value, onChange }: Props) => {
-const ProductDropdown = () => {
+const ProductDropdown = ({ value, onChange }: Props) => {
 	const [showDropdown, setShowDropdown] = useState(false)
-	const options = [
-		{
-			label: 'Milk',
-			price: 9,
-		},
-		{
-			label: 'Pizza',
-			price: 40,
-		},
-		{
-			label: 'Cacao',
-			price: 39,
-		},
-		{
-			label: 'Moccachino',
-			price: 1119,
-		},
-	]
-
-	const [checked, setChecked] = useState(
-		options.map(({ label, price }, idx) => {
-			return {
-				label,
-				id: idx,
-				isChecked: false,
-				quantity: 0,
-				price,
-				totalPrice: price,
-			}
-		})
-	)
-
 	const [searchTerm, setSearchTerm] = useState('')
-	const filteredProducts = checked.filter(({ label }) =>
+
+	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setSearchTerm(event.target.value)
+
+	const filteredProducts = value.filter(({ label }) =>
 		label.toLowerCase().includes(searchTerm.toLowerCase())
 	)
+
 	const plusQuantity = (id: number) => {
-		setChecked(
-			checked.map((el) => {
+		onChange(
+			value.map((el) => {
 				if (el.id === id) {
-					el.quantity += 1
+					el.quantity = el.quantity ? (el.quantity += 1) : 1
 					el.totalPrice = el.quantity * el.price
 				}
 				return el
@@ -66,41 +40,45 @@ const ProductDropdown = () => {
 		)
 	}
 	const minusQuantity = (id: number) => {
-		setChecked(
-			checked.map((el) => {
-				if (el.id === id && el.quantity > 0) {
-					el.quantity -= 1
-					el.isChecked = el.quantity > 0 ? true : false
+		onChange(
+			value.map((el) => {
+				if (el.id === id) {
+					if (el.quantity - 1 > 0) {
+						el.quantity -= 1
+					} else {
+						el.quantity = 0
+						el.isChecked = false
+					}
 					el.totalPrice = el.quantity * el.price
 				}
 				return el
 			})
 		)
 	}
-	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-		setSearchTerm(event.target.value)
 
 	const toggleIsCheck = (isChecked: boolean, id: number) => {
-		setChecked(
-			checked.map((el) => {
+		onChange(
+			value.map((el) => {
 				if (el.id === id) {
 					el.isChecked = isChecked
 					el.quantity = isChecked ? 1 : 0
+					el.totalPrice = 0
 				}
 				return el
 			})
 		)
 	}
+
 	const checkedToString = () => {
-		return checked
+		return value
 			.filter((el) => el.isChecked)
 			.map((el) => el.label + (el.quantity > 1 ? el.quantity : ''))
 			.toLocaleString()
 	}
 
 	const clearCheked = () => {
-		setChecked(
-			checked.map((el) => {
+		onChange(
+			value.map((el) => {
 				return {
 					...el,
 					isChecked: false,
@@ -120,7 +98,7 @@ const ProductDropdown = () => {
 					className='w-100'
 					onClick={() => setShowDropdown((prev) => !prev)}
 				>
-					{checkedToString() || 'Select'}
+					{checkedToString() || 'Додати	'}
 					<button
 						className='product-search-box-clear'
 						onClick={() => {
@@ -148,12 +126,11 @@ const ProductDropdown = () => {
 							</button>
 						) : null}
 					</ButtonGroup>
-					{/* <Dropdown.Divider /> */}
 					<Form>
 						{filteredProducts.map(
 							({ id, isChecked, label, quantity, price, totalPrice }) => {
 								return (
-									<Form className='product-item'>
+									<Form className='product-item' key={id}>
 										<Form.Check
 											className='product-name'
 											label={label}
@@ -165,7 +142,7 @@ const ProductDropdown = () => {
 										/>
 										<div className='quantity-container'>
 											<div className='quantity-control'>
-												{quantity > 0 ? (
+												{quantity ? (
 													<>
 														<Button onClick={() => minusQuantity(id)}>-</Button>
 														<span>{quantity}</span>
@@ -184,9 +161,9 @@ const ProductDropdown = () => {
 					</Form>
 				</Dropdown.Menu>
 			</Dropdown>
-			<pre>{checkedToString()}</pre>
+			{/* <pre>{checkedToString()}</pre> */}
 		</>
 	)
 }
-
+export type { Options }
 export default ProductDropdown
