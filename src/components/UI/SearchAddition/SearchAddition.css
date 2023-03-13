@@ -54,15 +54,41 @@
 .product-name {
 	flex: 2;
 }
+.form-control:focus {
+}
 
+.product-item button {
+	width: 37px;
+	border-color: rgba(244, 117, 33);
+	border-radius: 8px;
+	background-color: rgba(244, 117, 33);
+	box-shadow: none;
+}
+.product-item button:hover,
+.product-item button:focus {
+	background: rgb(244, 117, 33);
+	border: 2px solid rgb(244, 117, 33);
+	outline-color: red;
+	box-shadow: none;
+}
 .product-name input[type='checkbox'] {
+	width: 37px;
+	height: 37px;
+	appearance: none;
+	-webkit-appearance: none;
 	border: 2px solid rgb(244, 117, 33);
 	border-radius: 9px;
+}
+
+.product-name input[type='checkbox']:checked {
+	transform: scale(110%);
+	background-color: rgba(244, 117, 33);
 }
 
 .form-check-input {
 	outline: 0px solid;
 	background: rgb(254, 206, 174);
+	box-shadow: none;
 }
 
 .quantity-control {
