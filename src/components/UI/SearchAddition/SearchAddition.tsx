@@ -1,72 +1,77 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Dropdown, Button, ButtonGroup } from 'react-bootstrap'
-import './SearchAddition.css'
 import { RiDeleteBack2Fill, RiDeleteBin2Line } from 'react-icons/ri'
+import './SearchAddition.css'
 
 interface Options {
 	label: string
 	price: number
-	id: any
+	id: string
 	quantity: number
 	totalPrice: number
 	isChecked?: boolean
 }
 
 interface Props {
+	options: Array<Options>
 	value: Array<Options>
 	onChange: (callbackfn: Options[]) => void
 }
 
-const ProductDropdown = ({ value, onChange }: Props) => {
+const AdditionDropdown = ({ options, value, onChange }: Props) => {
 	const [showDropdown, setShowDropdown] = useState(false)
 	const [searchTerm, setSearchTerm] = useState('')
-
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>
 		setSearchTerm(event.target.value)
 
-	const filteredProducts = value.filter(({ label }) =>
+	const filteredProducts = options.filter(({ label }) =>
 		label.toLowerCase().includes(searchTerm.toLowerCase())
 	)
 
-	const plusQuantity = (id: number) => {
+	const plusQuantity = (valueId: string) => {
 		onChange(
-			value.map((el) => {
-				if (el.id === id) {
-					el.quantity = el.quantity ? (el.quantity += 1) : 1
-					el.totalPrice = el.quantity * el.price
+			value.map((item) => {
+				if (item.id === valueId) {
+					const mutableItem = { ...item }
+					mutableItem.quantity += 1
+					mutableItem.totalPrice = mutableItem.quantity * item.price
+					return mutableItem
 				}
-				return el
-			})
-		)
-	}
-	const minusQuantity = (id: number) => {
-		onChange(
-			value.map((el) => {
-				if (el.id === id) {
-					if (el.quantity - 1 > 0) {
-						el.quantity -= 1
-					} else {
-						el.quantity = 0
-						el.isChecked = false
-					}
-					el.totalPrice = el.quantity * el.price
-				}
-				return el
+				return item
 			})
 		)
 	}
 
-	const toggleIsCheck = (isChecked: boolean, id: number) => {
-		onChange(
-			value.map((el) => {
-				if (el.id === id) {
-					el.isChecked = isChecked
-					el.quantity = isChecked ? 1 : 0
-					el.totalPrice = 0
+	const minusQuantity = (valueId: string) => {
+		const modifiedArray = value.map((item) => {
+			if (item.id === valueId) {
+				const mutableItem = { ...item }
+				if (mutableItem.quantity - 1 > 0) {
+					mutableItem.quantity -= 1
+					mutableItem.totalPrice = mutableItem.quantity * item.price
+				} else {
+					mutableItem.isChecked = false
+					mutableItem.totalPrice = 0
+					mutableItem.quantity = 0
 				}
-				return el
-			})
-		)
+				return mutableItem
+			}
+			return item
+		})
+
+		onChange(modifiedArray.filter((item) => item.isChecked))
+	}
+
+	const toggleIsCheck = (isChecked: boolean, item: Options) => {
+		if (isChecked) {
+			const mutableItem = { ...item }
+			mutableItem.isChecked = true
+			mutableItem.quantity = 1
+			mutableItem.totalPrice = item.price
+			onChange([...value, mutableItem])
+		} else {
+			onChange([...value.filter((addition) => addition.id !== item.id)])
+		}
 	}
 
 	const checkedToString = () => {
@@ -76,22 +81,20 @@ const ProductDropdown = ({ value, onChange }: Props) => {
 			.toLocaleString()
 	}
 
-	const clearCheked = () => {
-		onChange(
-			value.map((el) => {
-				return {
-					...el,
-					isChecked: false,
-					totalPrice: el.price,
-					quantity: 0,
-				}
-			})
-		)
+	const clearCheked = (e: any) => {
+		e.preventDefault()
+		onChange([])
 	}
-
+	const findValue = (optionId: any) => {
+		return value.find((checked) => checked.id === optionId)
+	}
 	return (
 		<>
-			<Dropdown show={showDropdown} className=''>
+			<Dropdown
+				show={showDropdown}
+				className='dropdown-quantity'
+				style={{ minWidth: '400px' }}
+			>
 				<Dropdown.Toggle
 					variant='success'
 					id='dropdown-products'
@@ -101,8 +104,8 @@ const ProductDropdown = ({ value, onChange }: Props) => {
 					{checkedToString() || 'Додати	'}
 					<button
 						className='product-search-box-clear'
-						onClick={() => {
-							clearCheked()
+						onClick={(e) => {
+							clearCheked(e)
 							setShowDropdown((prev) => !prev)
 						}}
 					>
@@ -127,43 +130,56 @@ const ProductDropdown = ({ value, onChange }: Props) => {
 						) : null}
 					</ButtonGroup>
 					<Form>
-						{filteredProducts.map(
-							({ id, isChecked, label, quantity, price, totalPrice }) => {
-								return (
-									<Form className='product-item' key={id}>
-										<Form.Check
-											className='product-name'
-											label={label}
-											key={id}
-											checked={isChecked}
-											onChange={(e) => {
-												toggleIsCheck(e.target.checked, id)
-											}}
-										/>
-										<div className='quantity-container'>
-											<div className='quantity-control'>
-												{quantity ? (
-													<>
-														<Button onClick={() => minusQuantity(id)}>-</Button>
-														<span>{quantity}</span>
-														<Button onClick={() => plusQuantity(id)}>+</Button>
-													</>
-												) : null}
-											</div>
+						{filteredProducts.map((item) => {
+							return (
+								<Form className='product-item' key={item.id}>
+									<Form.Check
+										className='product-name'
+										label={item.label}
+										key={item.id}
+										checked={findValue(item.id)?.isChecked ?? false}
+										onChange={(e) => {
+											toggleIsCheck(e.target.checked, item)
+										}}
+									/>
+									<div className='quantity-container'>
+										<div className='quantity-control'>
+											{findValue(item.id)?.isChecked && (
+												<>
+													<Button
+														onClick={() => {
+															const itemIndex = findValue(item.id)?.id
+															if (itemIndex) minusQuantity(itemIndex)
+														}}
+													>
+														-
+													</Button>
+													<span>{findValue(item.id)?.quantity}</span>
+													<Button
+														onClick={() => {
+															const itemIndex = findValue(item.id)?.id
+															if (itemIndex) plusQuantity(itemIndex)
+														}}
+													>
+														+
+													</Button>
+												</>
+											)}
 											<div className='product-price'>
-												<span>{totalPrice !== 0 ? totalPrice : price}</span>
+												<span>
+													{findValue(item.id)?.totalPrice ?? item.price}
+												</span>
 											</div>
 										</div>
-									</Form>
-								)
-							}
-						)}
+									</div>
+								</Form>
+							)
+						})}
 					</Form>
 				</Dropdown.Menu>
 			</Dropdown>
-			{/* <pre>{checkedToString()}</pre> */}
 		</>
 	)
 }
 export type { Options }
-export default ProductDropdown
+export default AdditionDropdown

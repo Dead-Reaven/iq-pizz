@@ -1,39 +1,36 @@
-import MultiSelectDropDown from '../UI/MultySelect'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import {
 	delProduct,
 	setProductQuantity,
-	setProductAddition,
+	addProductAddition,
 	writeProductComment,
 } from '../../features/orderSlice'
-import { ProductTypes, AdditionTypes } from '../../features/orderSlice'
+import { ProductTypes } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import './ProductCard.css'
+import AdditionDropdown, { Options } from '../UI/SearchAddition/SearchAddition'
+import { nanoid } from 'nanoid'
+import MultiSelectDropDown from '../UI/MultySelect'
 
-const additionFood: AdditionTypes = [
-	{ label: 'Виноград ', value: '1', price: 20, ico: '🍇' },
-	{ label: 'Манго ', value: '2', price: 10, ico: '🥭' },
-	{ label: 'Полуниця ', value: '3', price: 40, ico: '🍓' },
-	{ label: 'Сир ', value: '4', price: 50, ico: '🧀' },
-	{ label: 'Бекон ', value: '5', price: 30, ico: '🥓' },
-	{ label: 'Полуниця ', value: '6', price: 29, ico: '🍓' },
-	{ label: 'Сир ', value: '7', price: 20, ico: '🧀' },
-	{ label: 'Бекон ', value: '8', price: 50, ico: '🥓' },
-]
+const optionsAdditions: Options[] = [
+	{ label: 'Виноград 🍇', price: 20 },
+	{ label: 'Манго 🥭', price: 10 },
+	{ label: 'Полуниця 🍓', price: 40 },
+	{ label: 'Сир 🧀', price: 50 },
+	{ label: 'Бекон 🥓', price: 30 },
+	{ label: 'Полуниця 🍓', price: 29 },
+	{ label: 'Сир 🧀', price: 20 },
+	{ label: 'Бекон 🥓', price: 50 },
+].map((el) => {
+	return { ...el, quantity: 0, totalPrice: el.price, id: nanoid() }
+})
 
 interface ProductCard {
 	product: ProductTypes
 }
 
 function PizzaCard(props: ProductCard) {
-	const {
-		id,
-		label: name,
-		comment,
-		quantity,
-		totalPrice,
-		addition,
-	} = props.product
+	const { id, label, comment, quantity, totalPrice, addition } = props.product
 
 	const dispatch = useDispatch()
 
@@ -47,27 +44,27 @@ function PizzaCard(props: ProductCard) {
 		dispatch(delProduct({ id }))
 	}
 
-	const handleMultiSelectChange = (addition: AdditionTypes) => {
+	const onChangeAdditionHandle = (addition: Options[]) => {
 		dispatch(
-			setProductAddition({
+			addProductAddition({
 				id,
 				addition,
 			})
 		)
 	}
-
 	return (
 		<div className='container_pizza-card'>
 			<div className='pizza-card'>
 				<form>
 					<div className='pizza-card_header'>
-						<div className='pizza-card_header_name'>{name}</div>
+						<div className='pizza-card_header_name'>{label}</div>
 						<div className='pizza-card_header_block-selected-items'>
-							{addition?.map(({ label, ico }) => (
-								<span className='pizza-card_header_block-selected-items_item'>
-									{label.replace(ico ?? '', '')}
-								</span>
-							))}
+							{addition &&
+								addition.map(({ label }) => (
+									<span className='pizza-card_header_block-selected-items_item'>
+										{label}
+									</span>
+								))}
 						</div>
 						<div className='pizza-card_header_block-price'>
 							<h4
@@ -82,18 +79,10 @@ function PizzaCard(props: ProductCard) {
 						</div>
 					</div>
 					<div className='pizza-card_footer '>
-						<MultiSelectDropDown
-							className='pizza-card_footer_select-addition'
-							options={additionFood.map((option) => {
-								return {
-									...option,
-									label: option.label + option.ico,
-								}
-							})}
-							value={addition ?? []}
-							onChange={handleMultiSelectChange}
-							labelledBy='Додати'
-							hasSelectAll
+						<AdditionDropdown
+							options={optionsAdditions}
+							value={addition}
+							onChange={(value) => onChangeAdditionHandle(value)}
 						/>
 						<input
 							className='pizza-card_footer_comment'

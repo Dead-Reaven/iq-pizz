@@ -1,19 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import getTotalProductPrice from '../utils/updateProductPrice'
+// import { AdditionTypes } from '../components/UI/SearchAddition/SearchAddition'
 import { nanoid } from 'nanoid'
 
-type AdditionTypes = Array<{
+type AdditionTypes = {
 	label: string
-	value: string // id
 	price: number
-	ico?: string
-}>
+	id: any
+	quantity: number
+	totalPrice: number
+	isChecked?: boolean
+}
 
 type ProductTypes = {
 	readonly label: string
 	readonly price: number // per one item
 	readonly id: string
-	addition?: AdditionTypes // additional food for product
+	addition: Array<AdditionTypes> // additional food for product
 	comment?: string
 	quantity: number // quantity of product items
 	totalPrice: number // per full order
@@ -40,6 +43,7 @@ const orderSlice = createSlice({
 				price: action.payload.price,
 				id: nanoid(),
 				quantity: 1,
+				addition: [],
 				totalPrice: action.payload.price,
 			})
 		},
@@ -68,15 +72,13 @@ const orderSlice = createSlice({
 				return product
 			})
 		},
-		setProductAddition: (
+		addProductAddition: (
 			state,
-			action: PayloadAction<{ id: string; addition: AdditionTypes }>
+			action: PayloadAction<{ id: string; addition: Array<AdditionTypes> }>
 		) => {
-			const { addition, id } = action.payload
 			state.products = state.products.map((product) => {
-				if (product.id === id) {
-					product.addition = addition
-					product.totalPrice = getTotalProductPrice(state.products, id)
+				if (product.id === action.payload.id) {
+					product.addition = action.payload.addition
 				}
 				return product
 			})
@@ -95,14 +97,14 @@ const orderSlice = createSlice({
 	},
 })
 
-export type { ProductTypes, AdditionTypes }
+export type { ProductTypes }
 export { orderSlice }
 export const {
 	clearProducts,
 	setProductQuantity,
 	delProduct,
 	addProduct,
-	setProductAddition,
+	addProductAddition,
 	writeProductComment,
 } = orderSlice.actions
 export default orderSlice.reducer

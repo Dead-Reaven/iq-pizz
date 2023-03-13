@@ -30,7 +30,7 @@
 	color: red;
 	transform: scale(120%);
 }
-.pizza-card form {
+.pizza-card > form {
 	display: flex;
 	flex-direction: column;
 	gap: 25px;

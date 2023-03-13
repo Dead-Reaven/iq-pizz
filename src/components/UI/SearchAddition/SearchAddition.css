@@ -51,9 +51,18 @@
 .product-item * {
 	margin: 0px 5px;
 }
-
 .product-name {
 	flex: 2;
+}
+
+.product-name input[type='checkbox'] {
+	border: 2px solid rgb(244, 117, 33);
+	border-radius: 9px;
+}
+
+.form-check-input {
+	outline: 0px solid;
+	background: rgb(254, 206, 174);
 }
 
 .quantity-control {
@@ -62,6 +71,7 @@
 	align-items: center;
 	flex: 1;
 }
+
 .quantity-container {
 	display: flex;
 	justify-content: center;

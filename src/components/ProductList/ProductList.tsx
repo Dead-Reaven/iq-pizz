@@ -50,7 +50,6 @@ function ProductList() {
 							labelledBy='Обрати піццу'
 						/>
 					</div>
-
 					{productsState.map((product) => (
 						<PizzaCard product={product} key={product.id} />
 					))}
