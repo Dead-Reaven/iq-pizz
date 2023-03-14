@@ -7,7 +7,7 @@ const getTotalProductPrice = (products: Array<ProductTypes>, id: string) => {
 		if (product.addition?.length) {
 			product.totalPrice +=
 				product.quantity *
-				product.addition.reduce((sum, product) => sum + product.price, 0)
+				product.addition.reduce((sum, addition) => sum + addition.totalPrice, 0)
 		}
 		return product.totalPrice
 	}

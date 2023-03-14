@@ -60,9 +60,9 @@ function PizzaCard(props: ProductCard) {
 						<div className='pizza-card_header_name'>{label}</div>
 						<div className='pizza-card_header_block-selected-items'>
 							{addition &&
-								addition.map(({ label }) => (
+								addition.map(({ label, quantity }) => (
 									<span className='pizza-card_header_block-selected-items_item'>
-										{label}
+										{quantity > 1 ? `(${label}x${quantity})` : label}
 									</span>
 								))}
 						</div>

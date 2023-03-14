@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { FormTypes, updateForm } from '../../features/formSlice'
@@ -6,47 +6,54 @@ import MultiSelectDropDown from '../UI/MultySelect'
 import './ContactForm.css'
 
 import { RootState } from '../../app/store'
-// type StoresTypes = Array<{ label: string; value: string }>
+type StoresTypes = { label: string; value: string }
 
-// const stores: StoresTypes = [
-// 	{
-// 		label: '1',
-// 		value: '1',
-// 	},
-// 	{
-// 		label: '2',
-// 		value: '2',
-// 	},
-// 	{
-// 		label: '3',
-// 		value: '3',
-// 	},
-// ]
+const stores: Array<StoresTypes> = [
+	{
+		label: 'Калинова',
+		value: '1',
+	},
+	{
+		label: 'Воронцова',
+		value: '2',
+	},
+	{
+		label: 'Батумська',
+		value: '3',
+	},
+]
 
 function ContactForm() {
 	const infoState = useSelector((state: RootState) => state.form.data)
-	// const [storeSelected, setStoreSelected] = useState<StoresTypes>([])
+	const [storeSelected, setStoreSelected] = useState<Array<StoresTypes>>([])
 	const dispatch = useDispatch()
 	const onChangeFieldHandler = (field: keyof FormTypes, value: string) => {
 		dispatch(updateForm({ key: field, value }))
 	}
-
+	const onSelectStorehandler = (store: Array<StoresTypes>) => {
+		dispatch(
+			updateForm({
+				key: 'store',
+				value: store.length ? store[store.length - 1].label : '',
+			})
+		)
+	}
 	return (
 		<div className='contact'>
 			<form className='contact_container '>
 				<div className='contact_container_store-search hide-checkbox'>
-					{/* <MultiSelectDropDown
+					<MultiSelectDropDown
 						options={stores}
 						value={
-							storeSelected.length > 0
-								? [storeSelected[storeSelected.length - 1]]
+							infoState.store.length > 0
+								? [{ label: infoState.store, value: '0' }]
 								: []
 						}
-						onChange={setStoreSelected}
+						onChange={onSelectStorehandler}
 						hasSelectAll={false}
 						closeOnChangedValue
 						labelledBy='Торгова точка'
-					/> */}
+					/>
 				</div>
 
 				<div className='contact_container_personal-data'>

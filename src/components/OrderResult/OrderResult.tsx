@@ -21,24 +21,22 @@ function OrderResult() {
 			: 'доставка текущий'
 		: ''
 
+	const products = [
+		...productsState.map(({ label, quantity, comment, addition }) => {
+			const name = quantity > 1 ? ` (${label}x${quantity})` : label + ' '
+			const additionFood = addition.map(({ label, quantity }) => {
+				return quantity > 1 ? ` (${label}x${quantity})` : label + ' '
+			})
+			return (name + additionFood ?? '' + comment ?? '') + '\n'
+		}),
+	]
+	console.log(products)
 	const order = [
 		`${orderState.name} ${orderState.tel} `,
 		`${orderState.store}`,
 		`${deliveryType} ${orderState.time}`,
 		`${orderState.adress} `,
-		...productsState.map(
-			(product) =>
-				`${product.quantity > 1 ? '(' : ''}${product.label} ${
-					product.quantity > 1 ? 'x' + product.quantity + ')' : ''
-				} ${
-					product?.addition
-						? product.addition?.map(
-								({ label }) => '+' + `${label.slice(0, -2)}`
-						  )
-						: ''
-				} ${product?.comment || ''}`
-		),
-
+		[...products],
 		`${
 			productsState.length
 				? 'Итого:' +

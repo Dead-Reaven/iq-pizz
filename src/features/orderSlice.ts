@@ -79,6 +79,7 @@ const orderSlice = createSlice({
 			state.products = state.products.map((product) => {
 				if (product.id === action.payload.id) {
 					product.addition = action.payload.addition
+					product.totalPrice = getTotalProductPrice(state.products, product.id)
 				}
 				return product
 			})
