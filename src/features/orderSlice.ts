@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import getTotalProductPrice from '../utils/updateProductPrice'
-// import { AdditionTypes } from '../components/UI/SearchAddition/SearchAddition'
 import { nanoid } from 'nanoid'
 
-type AdditionTypes = {
+interface AdditionTypes {
 	label: string
 	price: number
-	id: any
+	id: string
 	quantity: number
 	totalPrice: number
 	isChecked?: boolean
@@ -98,7 +97,7 @@ const orderSlice = createSlice({
 	},
 })
 
-export type { ProductTypes }
+export type { ProductTypes, AdditionTypes }
 export { orderSlice }
 export const {
 	clearProducts,

@@ -23,14 +23,13 @@ function OrderResult() {
 
 	const products = [
 		...productsState.map(({ label, quantity, comment, addition }) => {
-			const name = quantity > 1 ? ` (${label}x${quantity})` : label + ' '
+			const name = quantity > 1 ? `(${label}x${quantity})` : label
 			const additionFood = addition.map(({ label, quantity }) => {
-				return quantity > 1 ? ` (${label}x${quantity})` : label + ' '
+				return quantity > 1 ? `(${label}x${quantity}) ` : label
 			})
-			return (name + additionFood ?? '' + comment ?? '') + '\n'
+			return (name + ' ' + additionFood ?? '' + comment ?? '') + '\n'
 		}),
 	]
-	console.log(products)
 	const order = [
 		`${orderState.name} ${orderState.tel} `,
 		`${orderState.store}`,

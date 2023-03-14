@@ -1,16 +1,8 @@
 import React, { useState } from 'react'
 import { Form, Dropdown, Button, ButtonGroup } from 'react-bootstrap'
-import { RiDeleteBack2Fill, RiDeleteBin2Line } from 'react-icons/ri'
+import { RiDeleteBin2Line } from 'react-icons/ri'
+import { AdditionTypes as Options } from '../../../features/orderSlice'
 import './SearchAddition.css'
-
-interface Options {
-	label: string
-	price: number
-	id: string
-	quantity: number
-	totalPrice: number
-	isChecked?: boolean
-}
 
 interface Props {
 	options: Array<Options>
@@ -90,11 +82,7 @@ const AdditionDropdown = ({ options, value, onChange }: Props) => {
 	}
 	return (
 		<>
-			<Dropdown
-				show={showDropdown}
-				className='dropdown-quantity'
-				style={{ minWidth: '400px' }}
-			>
+			<Dropdown show={showDropdown} className='dropdown-quantity'>
 				<Dropdown.Toggle
 					variant='success'
 					id='dropdown-products'
@@ -112,6 +100,7 @@ const AdditionDropdown = ({ options, value, onChange }: Props) => {
 						<RiDeleteBin2Line />
 					</button>
 				</Dropdown.Toggle>
+
 				<Dropdown.Menu className='product-dropdown-menu w-100 '>
 					<ButtonGroup className='product-search-box'>
 						<Form.Control
@@ -133,36 +122,48 @@ const AdditionDropdown = ({ options, value, onChange }: Props) => {
 						{filteredProducts.map((item) => {
 							return (
 								<Form className='product-item' key={item.id}>
-									<Form.Check
-										className='product-name'
-										label={item.label}
-										key={item.id}
-										checked={findValue(item.id)?.isChecked ?? false}
-										onChange={(e) => {
-											toggleIsCheck(e.target.checked, item)
-										}}
-									/>
+									<label className='checkbox-container' tabIndex={1}>
+										<span tabIndex={1}>{item.label}</span>
+										<input
+											type='checkbox'
+											tabIndex={1}
+											key={item.id}
+											checked={findValue(item.id)?.isChecked ?? false}
+											onChange={(e) => {
+												toggleIsCheck(e.target.checked, item)
+											}}
+											id={item.id}
+										/>
+										<button
+											onClick={(e) => {
+												e.preventDefault()
+												document.getElementById(item.id)?.click()
+											}}
+											className='checkmark'
+											tabIndex={0}
+										></button>
+									</label>
 									<div className='quantity-container'>
 										<div className='quantity-control'>
 											{findValue(item.id)?.isChecked && (
 												<>
-													<Button
+													<input
+														type='button'
 														onClick={() => {
 															const itemIndex = findValue(item.id)?.id
 															if (itemIndex) minusQuantity(itemIndex)
 														}}
-													>
-														-
-													</Button>
+														value='-'
+													/>
 													<span>{findValue(item.id)?.quantity}</span>
-													<Button
+													<input
+														type='button'
 														onClick={() => {
 															const itemIndex = findValue(item.id)?.id
 															if (itemIndex) plusQuantity(itemIndex)
 														}}
-													>
-														+
-													</Button>
+														value='+'
+													/>
 												</>
 											)}
 											<div className='product-price'>
@@ -181,5 +182,4 @@ const AdditionDropdown = ({ options, value, onChange }: Props) => {
 		</>
 	)
 }
-export type { Options }
 export default AdditionDropdown

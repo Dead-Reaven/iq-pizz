@@ -5,12 +5,15 @@ import {
 	addProductAddition,
 	writeProductComment,
 } from '../../features/orderSlice'
-import { ProductTypes } from '../../features/orderSlice'
+import {
+	ProductTypes,
+	AdditionTypes as Options,
+} from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import './ProductCard.css'
-import AdditionDropdown, { Options } from '../UI/SearchAddition/SearchAddition'
+import AdditionDropdown from '../UI/SearchAddition/SearchAddition'
 import { nanoid } from 'nanoid'
-import MultiSelectDropDown from '../UI/MultySelect'
+import SelectSearch from 'react-select-search'
 
 const optionsAdditions: Options[] = [
 	{ label: 'Виноград 🍇', price: 20 },
@@ -57,7 +60,7 @@ function PizzaCard(props: ProductCard) {
 			<div className='pizza-card'>
 				<form>
 					<div className='pizza-card_header'>
-						<div className='pizza-card_header_name'>{label}</div>
+						<h4 className='pizza-card_header_name'>{label}</h4>
 						<div className='pizza-card_header_block-selected-items'>
 							{addition &&
 								addition.map(({ label, quantity }) => (
@@ -84,6 +87,7 @@ function PizzaCard(props: ProductCard) {
 							value={addition}
 							onChange={(value) => onChangeAdditionHandle(value)}
 						/>
+
 						<input
 							className='pizza-card_footer_comment'
 							value={comment}
