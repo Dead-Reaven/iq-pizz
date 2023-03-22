@@ -10,12 +10,18 @@ interface AdditionTypes {
 	totalPrice: number
 	isChecked?: boolean
 }
+interface BorderTypes {
+	label: string
+	price: number
+	id: string
+}
 
 type ProductTypes = {
 	readonly label: string
 	readonly price: number // per one item
 	readonly id: string
 	addition: Array<AdditionTypes> // additional food for product
+	border?: BorderTypes // can be only one item. use RadioSelect
 	comment?: string
 	quantity: number // quantity of product items
 	totalPrice: number // per full order
@@ -83,6 +89,22 @@ const orderSlice = createSlice({
 				return product
 			})
 		},
+		changeProductBorder: (
+			state,
+			action: PayloadAction<{
+				id: string
+				border: BorderTypes
+			}>
+		) => {
+			state.products = state.products.map((product) => {
+				if (product.id === action.payload.id) {
+					product.border = action.payload.border
+					product.totalPrice = getTotalProductPrice(state.products, product.id)
+				}
+				return product
+			})
+		},
+
 		writeProductComment: (
 			state,
 			action: PayloadAction<{ id: string; comment: string }>
@@ -97,7 +119,7 @@ const orderSlice = createSlice({
 	},
 })
 
-export type { ProductTypes, AdditionTypes }
+export type { ProductTypes, AdditionTypes, BorderTypes }
 export { orderSlice }
 export const {
 	clearProducts,
@@ -106,5 +128,6 @@ export const {
 	addProduct,
 	addProductAddition,
 	writeProductComment,
+	changeProductBorder,
 } = orderSlice.actions
 export default orderSlice.reducer

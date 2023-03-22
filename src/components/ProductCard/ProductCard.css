@@ -57,9 +57,13 @@
 	max-width: 170px;
 	max-height: 100px;
 }
+.pizza-card_footer_container-addition > :nth-child(1){
+	margin-bottom: 5px;
+}
 
 .pizza-card_footer_comment {
 	margin: 0px 10px;
+	/* max-width: 150px; */
 	flex: 1 1 auto;
 }
 
@@ -91,12 +95,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 5px;
 }
 
-.pizza-card_footer_select-addition {
-	height: 40px;
-	width: 33%;
-}
 
 .pizza-card_footer_count-block {
 	display: flex;

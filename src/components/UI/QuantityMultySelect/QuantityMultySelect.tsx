@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Form, Dropdown, Button, ButtonGroup } from 'react-bootstrap'
+import { Form, Dropdown, ButtonGroup } from 'react-bootstrap'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 import { AdditionTypes as Options } from '../../../features/orderSlice'
-import './SearchAddition.css'
+import './QuantityMultySelect.css'
 
 interface Props {
 	options: Array<Options>
@@ -10,7 +10,7 @@ interface Props {
 	onChange: (callbackfn: Options[]) => void
 }
 
-const AdditionDropdown = ({ options, value, onChange }: Props) => {
+const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 	const [showDropdown, setShowDropdown] = useState(false)
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -182,4 +182,4 @@ const AdditionDropdown = ({ options, value, onChange }: Props) => {
 		</>
 	)
 }
-export default AdditionDropdown
+export default QuantityMultySelect

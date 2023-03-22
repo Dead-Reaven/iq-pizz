@@ -4,6 +4,8 @@ import {
 	setProductQuantity,
 	addProductAddition,
 	writeProductComment,
+	BorderTypes,
+	changeProductBorder,
 } from '../../features/orderSlice'
 import {
 	ProductTypes,
@@ -11,9 +13,9 @@ import {
 } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import './ProductCard.css'
-import AdditionDropdown from '../UI/SearchAddition/SearchAddition'
+import QuantityMultySelect from '../UI/QuantityMultySelect/QuantityMultySelect'
 import { nanoid } from 'nanoid'
-import SelectSearch from 'react-select-search'
+import RadioSelect from '../UI/RadioSelect/RadioSelect'
 
 const optionsAdditions: Options[] = [
 	{ label: 'Виноград 🍇', price: 20 },
@@ -28,12 +30,22 @@ const optionsAdditions: Options[] = [
 	return { ...el, quantity: 0, totalPrice: el.price, id: nanoid() }
 })
 
+const optionsBorders: Array<BorderTypes> = [
+	{ label: 'Базовий', price: 0 },
+	{ label: 'Сирний', price: 39 },
+	{ label: 'Сулугуні', price: 49 },
+	{ label: 'Кремовий', price: 49 },
+].map((el) => {
+	return { ...el, id: nanoid() }
+})
+
 interface ProductCard {
 	product: ProductTypes
 }
 
 function PizzaCard(props: ProductCard) {
-	const { id, label, comment, quantity, totalPrice, addition } = props.product
+	const { id, label, comment, quantity, totalPrice, addition, border } =
+		props.product
 
 	const dispatch = useDispatch()
 
@@ -55,6 +67,15 @@ function PizzaCard(props: ProductCard) {
 			})
 		)
 	}
+	const onChangeBorderhandle = (border: BorderTypes) => {
+		dispatch(
+			changeProductBorder({
+				id,
+				border,
+			})
+		)
+	}
+
 	return (
 		<div className='container_pizza-card'>
 			<div className='pizza-card'>
@@ -82,12 +103,20 @@ function PizzaCard(props: ProductCard) {
 						</div>
 					</div>
 					<div className='pizza-card_footer '>
-						<AdditionDropdown
-							options={optionsAdditions}
-							value={addition}
-							onChange={(value) => onChangeAdditionHandle(value)}
-						/>
-
+						<div className='pizza-card_footer_container-addition'>
+							<RadioSelect
+								options={optionsBorders}
+								value={border ?? optionsBorders[0]}
+								onChange={(value) => {
+									onChangeBorderhandle(value)
+								}}
+							/>
+							<QuantityMultySelect
+								options={optionsAdditions}
+								value={addition}
+								onChange={(value) => onChangeAdditionHandle(value)}
+							/>
+						</div>
 						<input
 							className='pizza-card_footer_comment'
 							value={comment}

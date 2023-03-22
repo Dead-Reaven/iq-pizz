@@ -1,0 +1,196 @@
+* {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+.dropdown-quantity {
+	width: 370px;
+	max-width: 370px;
+}
+
+.product-dropdown-checkbox-container {
+	padding: 15px;
+}
+
+.product-dropdown-menu {
+	width: 350px;
+	max-height: 300px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding: 15px;
+}
+
+.product-search-box {
+	width: 100%;
+	padding: 0px;
+	border: 0px solid;
+	position: relative;
+}
+.product-search {
+	width: 100%;
+	flex: 1000;
+}
+
+.product-search-box-clear {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	background: none;
+	color: rgba(187, 183, 183, 0.828);
+	width: 20px;
+	height: 20px;
+}
+.product-search-box-clear:focus,
+.product-search-box-clear:hover {
+	color: red;
+	border: none;
+}
+.product-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 60px;
+}
+.product-item * {
+	margin: 0px 5px;
+}
+
+/*! checkbox  */
+
+/* Customize the label (the checkbox-container) */
+.checkbox-container {
+	/* display: flex; */
+	/* align-content: center; */
+
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: 16px;
+}
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: -5px;
+	height: 30px;
+	width: 30px;
+	background: none;
+	border: 2px solid rgb(244, 117, 33);
+	border-radius: 7px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark,
+.checkbox-container:focus input ~ .checkmark,
+.checkbox-container:active input ~ .checkmark {
+	outline: 2px solid rgb(244, 117, 33);
+	border: none;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+	background-color: rgb(244, 117, 33);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+	content: '';
+	position: absolute;
+	display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+	display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+	left: 8px;
+	top: 4px;
+	width: 10px;
+	height: 14px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+/*? old */
+/* .checkbox-checkbox-container {
+	display: flex;
+	align-items: center;
+}
+.checkbox-checkbox-container input[type='checkbox'] {
+	border: 2px solid rgb(244, 117, 33);
+	border-radius: 50%;
+}
+
+.product-checkbox {
+	width: 30px;
+	height: 30px;
+	margin: 0px;
+	background-color: #000;
+	color: red;
+	border: 2px solid rgb(244, 117, 33);
+	border-radius: 50%;
+} */
+/*! checkbox  */
+.addition-label {
+}
+.form-control:focus {
+}
+
+.product-item input[type='button'] {
+	width: 30px;
+	height: 30px;
+	border-color: rgba(244, 117, 33);
+	padding: 0px;
+	border-radius: 8px;
+	color: white;
+	background-color: rgba(244, 117, 33);
+}
+
+.product-name input[type='checkbox']:checked {
+	background-color: rgba(244, 117, 33);
+}
+
+.form-check-input {
+	outline: 0px solid;
+	background: rgb(254, 206, 174);
+	box-shadow: none;
+}
+
+.quantity-control {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex: 2;
+}
+
+.quantity-checkbox-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 2;
+}
+.quantity {
+	font-weight: bold;
+	margin: 0 10px;
+}
+
+.product-price {
+	text-align: right;
+}
