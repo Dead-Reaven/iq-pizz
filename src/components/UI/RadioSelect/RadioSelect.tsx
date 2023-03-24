@@ -17,8 +17,11 @@ const RadioSelect = ({ options, value, onChange }: Props) => {
 	}
 
 	return (
-		<>
-			<Dropdown show={showDropdown} className='dropdown-quantity'>
+		<div>
+			<Dropdown
+				show={showDropdown}
+				style={{ width: '250px', marginLeft: '5px' }}
+			>
 				<Dropdown.Toggle
 					variant='success'
 					id='dropdown-products'
@@ -62,7 +65,7 @@ const RadioSelect = ({ options, value, onChange }: Props) => {
 					})}
 				</Dropdown.Menu>
 			</Dropdown>
-		</>
+		</div>
 	)
 }
 export default RadioSelect

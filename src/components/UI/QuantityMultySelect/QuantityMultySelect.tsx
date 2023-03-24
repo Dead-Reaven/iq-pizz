@@ -81,7 +81,7 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 		return value.find((checked) => checked.id === optionId)
 	}
 	return (
-		<>
+		<div>
 			<Dropdown show={showDropdown} className='dropdown-quantity'>
 				<Dropdown.Toggle
 					variant='success'
@@ -179,7 +179,7 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 					</Form>
 				</Dropdown.Menu>
 			</Dropdown>
-		</>
+		</div>
 	)
 }
 export default QuantityMultySelect
