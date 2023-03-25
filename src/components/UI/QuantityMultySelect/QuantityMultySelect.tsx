@@ -7,7 +7,7 @@ import './QuantityMultySelect.css'
 interface Props {
 	options: Array<Options>
 	value: Array<Options>
-	onChange: (callbackfn: Options[]) => void
+	onChange: (value: Options[]) => void
 }
 
 const QuantityMultySelect = ({ options, value, onChange }: Props) => {
@@ -78,15 +78,16 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 		onChange([])
 	}
 	const findValue = (optionId: any) => {
-		return value.find((checked) => checked.id === optionId)
+		if (optionId) return value.find((checked) => checked.id === optionId)
 	}
+
 	return (
-		<div>
+		<>
 			<Dropdown show={showDropdown} className='dropdown-quantity'>
 				<Dropdown.Toggle
 					variant='success'
 					id='dropdown-products'
-					className='w-100'
+					className='dropdown-toggle'
 					onClick={() => setShowDropdown((prev) => !prev)}
 				>
 					{checkedToString() || 'Додати	'}
@@ -118,10 +119,10 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 							</button>
 						) : null}
 					</ButtonGroup>
-					<Form>
+					<>
 						{filteredProducts.map((item) => {
 							return (
-								<Form className='product-item' key={item.id}>
+								<div className='product-item' key={item.id}>
 									<label className='checkbox-container' tabIndex={1}>
 										<span tabIndex={1}>{item.label}</span>
 										<input
@@ -130,6 +131,7 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 											key={item.id}
 											checked={findValue(item.id)?.isChecked ?? false}
 											onChange={(e) => {
+												console.log(e.target.checked)
 												toggleIsCheck(e.target.checked, item)
 											}}
 											id={item.id}
@@ -173,13 +175,13 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 											</div>
 										</div>
 									</div>
-								</Form>
+								</div>
 							)
 						})}
-					</Form>
+					</>
 				</Dropdown.Menu>
 			</Dropdown>
-		</div>
+		</>
 	)
 }
 export default QuantityMultySelect

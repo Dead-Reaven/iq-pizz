@@ -17,11 +17,8 @@ const RadioSelect = ({ options, value, onChange }: Props) => {
 	}
 
 	return (
-		<div>
-			<Dropdown
-				show={showDropdown}
-				style={{ width: '250px', marginLeft: '5px' }}
-			>
+		<div style={{ minWidth: '200px'}}>
+			<Dropdown show={showDropdown}>
 				<Dropdown.Toggle
 					variant='success'
 					id='dropdown-products'

@@ -1,63 +1,83 @@
-.test-container {
+.pizza-card-container {
 	display: flex;
 	flex-direction: column;
-    position: relative;
+	/* gap: 10px; */
 	width: 100%;
 	border-bottom: 1px solid gray;
-	padding: 5px 35px;
-	margin: 5px 0px;
-    
-}
-.test-header-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.test-footer-container {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 50px;
+	margin-bottom: 14px;
 }
 
-.test-order-label-info {
+.pizza-header-container {
 	display: flex;
-	align-items: center;
-}
-.test-product-quantity-price{
-    position: absolute;
-    right: 15px;
-    top: -5px;
+	flex-direction: row;
+	width: 100%;
+	/* align-items: center; */
+	justify-content: space-between;
 }
 
-.test-addition-item {
+.pizza-header-container-options {
+	display: flex;
+	flex: 1 1 auto;
+	justify-content: flex-end;
+	gap: 15px;
 	margin-left: 5px;
 }
-.test-comment {
-	height: 36px;
-	margin: 0px 5px;
-	padding: 0px 10px;
+
+.addition {
+	flex: 1 1 auto;
+	min-width: 250px;
+	max-width: 350px;
+}
+
+.border-type {
+}
+
+.pizza-header-container-label {
+	/* width: max-content; */
+	/* font-size: 2vw; */
+}
+
+.addition-item {
+}
+
+.price-container {
+	position: relative;
+}
+.pizza-price {
+	width: 100px;
+	text-align: right;
+	/* padding-left: 15px; */
+}
+.product-quantity-price {
+	position: absolute;
+	right: -15px;
+	top: -15px;
+}
+.footer-container {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.comment {
 	flex: 1 1 auto;
 	background: none;
-	border-color: rgba(0, 0, 0, 0);
+	border: 0px;
+	height: 40px;
+	padding: 5px;
+	/* width: auto; */
 }
-.test-count-block {
+
+.count-block {
 	display: flex;
+	/* flex-direction: row-reverse; */
+	justify-content: space-around;
 	align-items: center;
-	gap: 5px;
-	flex-direction: row-reverse;
+	flex: 0 0 60px;
 }
-
-.test-count-block * {
-	background: none;
-	border: none;
-    width: 20px;
-	/* font-size: 22px; */
-	color: black;
+.count-block > * {
+	background: rgba(255, 0, 0, 0);
+	border: 0px;
 }
-
-.test-btn-del-product {
-	background: none;
-	color: black;
-	font-size: 18px;
+.btn-del-product {
 }

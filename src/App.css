@@ -28,6 +28,22 @@ body {
 		'total-order pizza-list';
 }
 
+/* @media screen and (max-width: 1370px) {
+	.grid-container {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'header'
+			'contact'
+			'pizza-list'
+			'total-order';
+		grid-template-rows: 10vh auto auto auto;
+	}
+	.pizza-list {
+		min-height: 100vh;
+		height: auto;
+	}
+} */
+
 .header {
 	grid-area: header;
 	padding: 0px;

@@ -8,7 +8,7 @@ interface AdditionTypes {
 	id: string
 	quantity: number
 	totalPrice: number
-	isChecked?: boolean
+	isChecked: boolean
 }
 interface BorderTypes {
 	label: string
@@ -88,7 +88,10 @@ const orderSlice = createSlice({
 				}
 				return product
 			})
+
+			// console.log(action.payload.id)
 		},
+
 		changeProductBorder: (
 			state,
 			action: PayloadAction<{

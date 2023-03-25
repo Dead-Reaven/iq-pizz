@@ -28,7 +28,13 @@ const optionsAdditions: Options[] = [
 	{ label: 'Сир 🧀', price: 20 },
 	{ label: 'Бекон 🥓', price: 50 },
 ].map((el) => {
-	return { ...el, quantity: 0, totalPrice: el.price, id: nanoid() }
+	return {
+		...el,
+		quantity: 0,
+		totalPrice: el.price,
+		isChecked: false,
+		id: nanoid(),
+	}
 })
 
 const optionsBorders: Array<BorderTypes> = [
@@ -59,7 +65,7 @@ function PizzaCard(props: ProductCard) {
 	const onDeleteProducthandle = () => {
 		dispatch(delProduct({ id }))
 	}
-
+	// console.log(id)
 	const onChangeAdditionHandle = (addition: Options[]) => {
 		dispatch(
 			addProductAddition({
@@ -78,42 +84,41 @@ function PizzaCard(props: ProductCard) {
 	}
 
 	return (
-		<div className='test-container'>
-			<div className='test-header-container'>
-				<div className='test-order-label-info'>
-					<h2>{label}</h2>
-
-					{addition &&
-						addition.map(({ label, quantity }) => (
-							<div>
-								<span className='test-addition-item'>
-									{quantity > 1 ? `(${label}x${quantity})` : label}
-								</span>
-							</div>
-						))}
+		<div className='pizza-card-container'>
+			<div className='pizza-header-container'>
+				<h4 className='pizza-header-container-label'>{label}</h4>
+				<div className='pizza-header-container-options'>
+					<div className='border-type'>
+						<RadioSelect
+							options={optionsBorders}
+							value={border ?? optionsBorders[0]}
+							onChange={onChangeBorderhandle}
+						/>
+					</div>
+					<div className=' addition '>
+						<QuantityMultySelect
+							options={optionsAdditions}
+							value={addition}
+							onChange={onChangeAdditionHandle}
+						/>
+					</div>
 				</div>
-				<div className='test-price-container'>
-					<h3 style={quantity > 1 ? { color: 'red' } : {}}>{totalPrice} ₴</h3>
-					<span className='test-product-quantity-price'>
+				<div className='price-container'>
+					<h3
+						className='pizza-price'
+						style={quantity > 1 ? { color: 'red' } : {}}
+					>
+						{totalPrice} ₴
+					</h3>
+					<span className='product-quantity-price'>
 						{quantity > 1 && `x${quantity}`}
 					</span>
 				</div>
 			</div>
-			<div className='test-footer-container'>
-				<QuantityMultySelect
-					options={optionsAdditions}
-					value={addition}
-					onChange={(value) => onChangeAdditionHandle(value)}
-				/>
-				<RadioSelect
-					options={optionsBorders}
-					value={border ?? optionsBorders[0]}
-					onChange={(value) => {
-						onChangeBorderhandle(value)
-					}}
-				/>
+
+			<div className='footer-container'>
 				<input
-					className='test-comment'
+					className='comment'
 					value={comment}
 					onChange={(e) => {
 						dispatch(writeProductComment({ id: id, comment: e.target.value }))
@@ -122,7 +127,7 @@ function PizzaCard(props: ProductCard) {
 				/>
 
 				{
-					<div className='test-count-block'>
+					<div className='count-block'>
 						<input type='button' value='+' onClick={plusQuantityHandle} />
 						{quantity > 1 ? (
 							<input type='button' value='-' onClick={minusQuantityHandle} />
@@ -130,7 +135,7 @@ function PizzaCard(props: ProductCard) {
 							<RiDeleteBin6Line
 								tabIndex={0}
 								type='button'
-								className='test-btn-del-product '
+								className='btn-del-product '
 								onClick={onDeleteProducthandle}
 							/>
 						)}

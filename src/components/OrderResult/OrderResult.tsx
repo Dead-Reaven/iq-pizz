@@ -23,18 +23,17 @@ function OrderResult() {
 
 	const products = [
 		...productsState.map(({ label, border, quantity, comment, addition }) => {
-			const name = quantity > 1 ? `(${label}x${quantity})` : label
+			const name = quantity > 1 ? `(${label}x${quantity}) ` : `${label} `
 			const additionFood = addition.map(({ label, quantity }) => {
-				return quantity > 1 ? `(${label}x${quantity}) ` : label
+				return quantity > 1 ? `(${label}x${quantity}) ` : ` ${label}`
 			})
 			let borderType = ''
 			if (border) {
 				borderType =
 					border?.label !== 'Базовий' ? `+ бортик ${border.label} ` : ' '
 			}
-			return (
-				(name + ' ' + borderType + additionFood ?? '' + comment ?? '') + '\n'
-			)
+
+			return name + borderType + additionFood + (comment ?? '') + '\n'
 		}),
 	]
 	const order = [
