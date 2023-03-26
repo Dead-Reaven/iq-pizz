@@ -5,16 +5,18 @@
 	box-sizing: border-box;
 }
 .dropdown-quantity {
-	width: inherit;
-	max-width: inherit;
-	/* width: 370px; */
-	/* max-width: 350px; */
+	/* width: 100%; */
+	/* max-width: inherit; */
 }
 
 .dropdown-toggle {
 	width: 100%;
+	/* width: inherit;
+	max-width: inherit; */
+	/* width: inherit;
+	max-width: inherit; */
+
 	overflow: auto;
-	/* max-width: 100%; */
 }
 /*! scrollbar */
 /* width */
