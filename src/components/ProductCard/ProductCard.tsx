@@ -13,37 +13,9 @@ import {
 } from '../../features/orderSlice'
 import { useDispatch } from 'react-redux'
 import QuantityMultySelect from '../UI/QuantityMultySelect/QuantityMultySelect'
-import { nanoid } from 'nanoid'
 import RadioSelect from '../UI/RadioSelect/RadioSelect'
+import { additionBorders, additionFood } from '../../data/addition'
 import './testStyles.css'
-
-const optionsAdditions: Options[] = [
-	{ label: 'Виноград 🍇', price: 20 },
-	{ label: 'Манго 🥭', price: 10 },
-	{ label: 'Полуниця 🍓', price: 40 },
-	{ label: 'Сир 🧀', price: 50 },
-	{ label: 'Бекон 🥓', price: 30 },
-	{ label: 'Полуниця 🍓', price: 29 },
-	{ label: 'Сир 🧀', price: 20 },
-	{ label: 'Бекон 🥓', price: 50 },
-].map((el) => {
-	return {
-		...el,
-		quantity: 0,
-		totalPrice: el.price,
-		isChecked: false,
-		id: nanoid(),
-	}
-})
-
-const optionsBorders: Array<BorderTypes> = [
-	{ label: 'Базовий', price: 0 },
-	{ label: 'Сирний', price: 39 },
-	{ label: 'Сулугуні', price: 49 },
-	{ label: 'Кремовий', price: 49 },
-].map((el) => {
-	return { ...el, id: nanoid() }
-})
 
 interface ProductCard {
 	product: ProductTypes
@@ -64,7 +36,6 @@ function PizzaCard(props: ProductCard) {
 	const onDeleteProducthandle = () => {
 		dispatch(delProduct({ id }))
 	}
-	// console.log(id)
 	const onChangeAdditionHandle = (addition: Options[]) => {
 		dispatch(
 			addProductAddition({
@@ -89,14 +60,14 @@ function PizzaCard(props: ProductCard) {
 				<div className='pizza-header-container-options'>
 					<div className='border-type'>
 						<RadioSelect
-							options={optionsBorders}
-							value={border ?? optionsBorders[0]}
+							options={additionBorders}
+							value={border ?? additionBorders[0]}
 							onChange={onChangeBorderhandle}
 						/>
 					</div>
 					<div className=' addition '>
 						<QuantityMultySelect
-							options={optionsAdditions}
+							options={additionFood}
 							value={addition}
 							onChange={onChangeAdditionHandle}
 						/>

@@ -27,6 +27,12 @@ type ProductTypes = {
 	totalPrice: number // per full order
 }
 
+type MenuTypes = Array<{
+	label: string
+	price: number
+	value: any
+}>
+
 interface orderTypes {
 	products: Array<ProductTypes>
 }
@@ -122,7 +128,7 @@ const orderSlice = createSlice({
 	},
 })
 
-export type { ProductTypes, AdditionTypes, BorderTypes }
+export type { ProductTypes, AdditionTypes, BorderTypes, MenuTypes }
 export { orderSlice }
 export const {
 	clearProducts,

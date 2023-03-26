@@ -1,36 +1,20 @@
-import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { FormTypes, updateForm } from '../../features/formSlice'
 import MultiSelectDropDown from '../UI/MultySelect'
+import stores, { StoreTypes } from '../../data/stores'
 import './ContactForm.css'
 
 import { RootState } from '../../app/store'
-type StoresTypes = { label: string; value: string }
-
-const stores: Array<StoresTypes> = [
-	{
-		label: 'Калинова',
-		value: '1',
-	},
-	{
-		label: 'Воронцова',
-		value: '2',
-	},
-	{
-		label: 'Батумська',
-		value: '3',
-	},
-]
 
 function ContactForm() {
 	const infoState = useSelector((state: RootState) => state.form.data)
-	const [storeSelected, setStoreSelected] = useState<Array<StoresTypes>>([])
 	const dispatch = useDispatch()
 	const onChangeFieldHandler = (field: keyof FormTypes, value: string) => {
 		dispatch(updateForm({ key: field, value }))
 	}
-	const onSelectStorehandler = (store: Array<StoresTypes>) => {
+
+	const onSelectStorehandler = (store: Array<StoreTypes>) => {
 		dispatch(
 			updateForm({
 				key: 'store',
