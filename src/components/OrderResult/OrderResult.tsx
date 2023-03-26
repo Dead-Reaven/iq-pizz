@@ -63,6 +63,7 @@ function OrderResult() {
 		<div className='total-order'>
 			<div className='total-order_container'>
 				<pre
+					className='total-order_container_content'
 					onClick={() => {
 						setShow(true)
 						navigator.clipboard.writeText(orderToString())

@@ -82,7 +82,11 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 	}
 	return (
 		<>
-			<Dropdown show={showDropdown} className='dropdown-quantity'>
+			<Dropdown
+				show={showDropdown}
+				className='dropdown-quantity'
+				onMouseLeave={() => setShowDropdown(false)}
+			>
 				<Dropdown.Toggle
 					variant='success'
 					id='dropdown-products'

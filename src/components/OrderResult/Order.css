@@ -3,19 +3,20 @@
 	align-content: center;
 	justify-content: center;
 	/* position: relative; */
+	padding: 15px 0px;
 	height: 100%;
 	width: 100%;
-	overflow: auto;
 }
-.total-order_container pre:hover {
+.total-order_container_content:hover {
 	cursor: pointer;
 	background: lightgreen;
 }
-.total-order_container pre {
-	/* position: absolute; */
+.total-order_container_content {
+	width: 100%;
+	height: 100%;
+	padding: 15px;
+	margin: 0px 15px;
 	text-align: left;
-	padding: 0px 15px;
-	/* transform: translate(-50%, -50%); */
 }
 .toast-copyed {
 	background: rgba(64, 149, 7, 0.557);
