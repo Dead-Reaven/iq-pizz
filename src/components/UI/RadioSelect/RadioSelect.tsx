@@ -17,7 +17,7 @@ const RadioSelect = ({ options, value, onChange }: Props) => {
 	}
 
 	return (
-		<div style={{ minWidth: '200px'}}>
+		<div style={{ minWidth: '200px' }}>
 			<Dropdown show={showDropdown}>
 				<Dropdown.Toggle
 					variant='success'
@@ -46,15 +46,11 @@ const RadioSelect = ({ options, value, onChange }: Props) => {
 										key={item.id}
 										id={item.id}
 									/>
-									<button
-										onClick={(e) => {
-											e.preventDefault()
-											document.getElementById(item.id)?.click()
-										}}
+									<div
 										className='checkmark'
 										style={{ borderRadius: '50%' }}
 										tabIndex={0}
-									></button>
+									></div>
 								</label>
 								<div> {item.price} </div>
 							</div>

@@ -78,9 +78,8 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 		onChange([])
 	}
 	const findValue = (optionId: any) => {
-		if (optionId) return value.find((checked) => checked.id === optionId)
+		return value.find((checked) => checked.id === optionId)
 	}
-
 	return (
 		<>
 			<Dropdown show={showDropdown} className='dropdown-quantity'>
@@ -123,28 +122,23 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 						{filteredProducts.map((item) => {
 							return (
 								<div className='product-item' key={item.id}>
-									<label className='checkbox-container' tabIndex={1}>
-										<span tabIndex={1}>{item.label}</span>
-										<input
-											type='checkbox'
-											tabIndex={1}
-											key={item.id}
-											checked={findValue(item.id)?.isChecked ?? false}
-											onChange={(e) => {
-												console.log(e.target.checked)
-												toggleIsCheck(e.target.checked, item)
-											}}
-											id={item.id}
-										/>
-										<button
-											onClick={(e) => {
-												e.preventDefault()
-												document.getElementById(item.id)?.click()
-											}}
-											className='checkmark'
-											tabIndex={0}
-										></button>
-									</label>
+									{
+										<label className='checkbox-container' tabIndex={1}>
+											<span tabIndex={1}>{item.label}</span>
+											<input
+												type='checkbox'
+												tabIndex={1}
+												key={item.id}
+												checked={findValue(item.id)?.isChecked ?? false}
+												onChange={(e) => {
+													toggleIsCheck(e.target.checked, item)
+												}}
+												id={item.id}
+											/>
+											<div className='checkmark' tabIndex={0} />
+										</label>
+									}
+
 									<div className='quantity-container'>
 										<div className='quantity-control'>
 											{findValue(item.id)?.isChecked && (
@@ -184,4 +178,5 @@ const QuantityMultySelect = ({ options, value, onChange }: Props) => {
 		</>
 	)
 }
+
 export default QuantityMultySelect
