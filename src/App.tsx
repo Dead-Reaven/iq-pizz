@@ -5,7 +5,7 @@ import ProductList from './components/ProductList/ProductList'
 import OrderResult from './components/OrderResult'
 import './App.css'
 
-const App = () => {
+function App() {
 	return (
 		<div className='App'>
 			<div className='grid-container'>

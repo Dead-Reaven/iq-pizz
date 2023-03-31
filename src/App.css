@@ -64,6 +64,7 @@ body {
 	border-left: 1px solid;
 	border-right: none;
 	padding: 25px;
+	overflow-y: auto;
 }
 .pizza-list {
 	grid-area: pizza-list;

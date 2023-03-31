@@ -1,11 +1,14 @@
+import { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { FormTypes, updateForm } from '../../features/formSlice'
 import MultiSelectDropDown from '../UI/MultySelect'
-import stores, { StoreTypes } from '../../data/stores'
-import './ContactForm.css'
-
+import fetchSheet from '../../api/fetchSheet'
+import { nanoid } from 'nanoid'
 import { RootState } from '../../app/store'
+// import getStores, { StoreType } from '../../data/stores'
+import './ContactForm.css'
+type StoreType = { label: string; value: string }
 
 function ContactForm() {
 	const infoState = useSelector((state: RootState) => state.form.data)
@@ -13,8 +16,21 @@ function ContactForm() {
 	const onChangeFieldHandler = (field: keyof FormTypes, value: string) => {
 		dispatch(updateForm({ key: field, value }))
 	}
+	const [stores, setStores] = useState<StoreType[]>([])
+	useEffect(() => {
+		const fetchStores = async () => {
+			const res = await fetchSheet('Стопи', 'SELECT A, B, C, D, E')
+			const stores: StoreType[] = res.table.rows
+				// filter out rows where store is undefined or null
+				.filter((row) => row.c[0]?.v)
+				// create a new StoreType for each row with defined store name
+				.map((row) => ({ label: row.c[0].v, value: nanoid() }))
+			setStores(stores)
+		}
+		fetchStores()
+	}, [])
 
-	const onSelectStorehandler = (store: Array<StoreTypes>) => {
+	const onSelectStorehandler = (store: Array<StoreType>) => {
 		dispatch(
 			updateForm({
 				key: 'store',
